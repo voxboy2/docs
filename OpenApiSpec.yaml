@@ -1,0 +1,1689 @@
+openapi: 3.0.0
+info:
+  title: Piggytech API
+  description: >-
+    INTEGRATED FINANCE AS A SERVICE
+
+
+    ## Authentication
+
+
+    Every endpoint requires some form of authentication using a bearer token
+    header. The key required for each request is a secret key.
+
+
+    `Authorization: Bearer sk_live_****`
+  version: 1.0.0
+servers:
+  - url: http://{{staging_base_url}}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: Customer
+  - name: Transfers
+  - name: Restriction
+  - name: Cards
+  - name: Interest
+  - name: Wallet
+paths:
+  /customer:
+    post:
+      tags:
+        - Customer
+      summary: Create Customer
+      description: >-
+        This endpoint allows you create a customer.
+
+
+        **Body Params**
+
+
+        - **name** (Required) - The customer's name
+
+        - **email** (Required) - The customer's email
+
+        - **phone** (Required) - The customer's phone number
+
+        - **identifier** (Required) - The customer's unique identifier
+
+        - **currency** (Required) - Specify the currency the customer will
+        transact in
+
+        - **country** (Required) - The customer's country
+
+        - **type** (Required) - The customer's type
+
+        - **tag** (Required) - The customer's tag
+
+        - **interestRate** (Required) - The interest rate that you want to set
+        for the customer
+
+        - **interestEnabled** (Optional) - This field allows you enable or
+        disable the customer's interest.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The customer's name
+                email:
+                  type: string
+                  description: The customer's email
+                phone:
+                  type: string
+                  description: The customer's phone number
+                identifier:
+                  type: string
+                  description: The customer's unique identifier
+                currency:
+                  type: string
+                  description: Specify the currency the customer will transact in
+                country:
+                  type: string
+                  description: The customer's country
+                type:
+                  type: string
+                  description: The customer's type
+                tag:
+                  type: string
+                  description: The customer's tag
+                interestRate:
+                  type: string
+                  description: The interest rate that you want to set for the customer
+                interestEnabled:
+                  type: string
+                  description: >-
+                    This field allows you enable or disable the customer's
+                    interest.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          headers:
+            content-type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Date:
+              schema:
+                type: string
+                example: Thu, 26 Oct 2023 10:17:36 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Customer created successfully
+                data:
+                  walletId: 8708703838032364000
+                  customerId: 1791174810391281700
+  /kyc/create:
+    post:
+      tags:
+        - Customer
+      summary: KYC Customer Request
+      description: >-
+        This endpoint allows you perfrom KYC on your customer.
+
+
+        **Body Params**
+
+
+        - **customer_id** (required) - The customer's email address
+
+        - **country_id** (required) - The country ID of the customer
+
+        - **kyc_document_type** (required)- The customers document type
+
+        - **kyc_document_identifier** (required) - The ID on the customer's
+        document
+
+        - **kyc_expiry_date** (required) - The expiry date on the customer's
+        document
+
+        - **gender** (required) - The gender of the customer
+
+        - **date_of_birth** (required) - The date of birth of the customer
+
+        - **residential_address** (required) - The address of the customer
+
+        - **city** (required) - The city where the customer resides.
+
+        - **state** (required) - The state the customer resides
+
+        - **postal_code** (required) - The postal code of the customer
+
+        - **next_of_kin_name** (required) - The name of the customer's next of
+        kin
+
+        - **next_of_kin_phone_number** (required) - The phone number of the
+        customer's next of k
+
+        - **next_of_kin_email** (required) - The email of the customer's next of
+        kin
+
+        - **relationship_with_next_of_kin** (required) - The relationship of the
+        customer's next of kin
+
+        - **nationality** (required) - The nationality of the customer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                customer_id:
+                  type: string
+                  description: The customer's email address
+                country_id:
+                  type: string
+                  description: The country ID of the customer
+                kyc_document_type:
+                  type: string
+                  description: The customers document type
+                kyc_document_identifier:
+                  type: string
+                  description: The ID on the customer's document
+                kyc_expiry_date:
+                  type: string
+                  description: The expiry date on the customer's document
+                gender:
+                  type: string
+                  description: The gender of the customer
+                date_of_birth:
+                  type: string
+                  description: The date of birth of the customer
+                residential_address:
+                  type: string
+                  description: The address of the customer
+                city:
+                  type: string
+                  description: The city where the customer resides.
+                state:
+                  type: string
+                  description: The state the customer resides
+                postal_code:
+                  type: string
+                  description: The postal code of the custome
+                next_of_kin_name:
+                  type: string
+                  description: The name of the customer's next of kin
+                next_of_kin_phone_number:
+                  type: string
+                  description: The phone number of the customer's next of kin
+                next_of_kin_email:
+                  type: string
+                  description: The email of the customer's next of kin
+                relationship_with_next_of_kin:
+                  type: string
+                  description: The relationship of the customer's next of kin
+                nationality:
+                  type: string
+                  description: The nationality of the customer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Customer kyc processing
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+            X-Cloud-Trace-Context:
+              schema:
+                type: string
+                example: 9730c2f8ae649504255d1dad725f2eb6
+            Date:
+              schema:
+                type: string
+                example: Mon, 11 Dec 2023 05:28:01 GMT
+            Server:
+              schema:
+                type: string
+                example: Google Frontend
+            Cache-Control:
+              schema:
+                type: string
+                example: private
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Your data is invalid
+                errors:
+                  - field: customer_id
+                    message: The customer id field is required.
+                  - field: country_id
+                    message: The country id field is required.
+                  - field: email
+                    message: The email field is required.
+                  - field: phone
+                    message: The phone field is required.
+                  - field: kyc_document_type
+                    message: The kyc document type field is required.
+                  - field: kyc_document_identifier
+                    message: The kyc document identifier field is required.
+                  - field: kyc_expiry_date
+                    message: The kyc expiry date field is required.
+                  - field: date_of_birth
+                    message: The date of birth field is required.
+                  - field: residential_address
+                    message: The residential address field is required.
+                  - field: city
+                    message: The city field is required.
+                  - field: state
+                    message: The state field is required.
+                  - field: postal_code
+                    message: The postal code field is required.
+                  - field: next_of_kin_name
+                    message: The next of kin name field is required.
+                  - field: next_of_kin_phone_number
+                    message: The next of kin phone number field is required.
+                  - field: relationship_with_next_of_kin
+                    message: The relationship with next of kin field is required.
+                  - field: nationality
+                    message: The nationality field is required.
+  /customer/webhook:
+    post:
+      tags:
+        - Customer
+      summary: Create customer webhook url
+      description: >-
+        This endpoint allows you create a webhook url for your customer
+
+
+        ## Body Params
+
+
+        - **webhook_url** (required) - Webhook Url for where webhooks will be
+        sent to.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                webhook_url: https://127.0.0.1
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /customers:
+    get:
+      tags:
+        - Customer
+      summary: Get All Customers
+      description: This endpoint allows you retrieve all your customers
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /customer/{customer_id}:
+    get:
+      tags:
+        - Customer
+      summary: Get Customer by ID
+      description: This endpoint allows you fetch a customer by its ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: customer_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the customer
+          example: dbe6d064-bc74-41e1-925c-1a1819d84321
+      responses:
+        '400':
+          description: Bad Request
+          headers:
+            content-type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Date:
+              schema:
+                type: string
+                example: Fri, 27 Oct 2023 12:46:33 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Customer fetched successfully
+                data:
+                  id: db16c15f-415a-4368-8920-9090d791e625
+                  type: Business
+                  phone: '09131118888'
+                  email: johndoe@example.com
+                  identifier: ID123
+                  name: Azeez Doe
+                  country: NG
+                  identity_number: null
+                  tier: Tier 1
+                  created_by: c096507d-dc32-45d2-9c01-871a27abfd10
+                  created_at: '2023-10-27T03:23:48.802000000Z'
+                  updated_at: '2023-10-27T03:23:48.802000000Z'
+  /customer/{customer_id}/balance/:
+    get:
+      tags:
+        - Customer
+      summary: Fetch Balance (Wallet Aggregate Under Customer)
+      description: This endpoint allows you fetch all the balance of your customer's wallet
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: customer_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the customer
+          example: dbe6d064-bc74-41e1-925c-1a1819d84321
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Sun, 12 Nov 2023 01:21:59 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 8289448d0f5056bf5a4090b124e024a9
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Customer balance retrieved successfully
+                data:
+                  balance: '40000'
+  /name-enquiry:
+    post:
+      tags:
+        - Transfers
+      summary: Verify account number
+      description: |-
+        This endpoint allows you verify an account number.
+
+          
+        **Body Params**
+
+        - **bankCode**(required) - The bank code.
+            
+        - **accountNumber**(required) - The account number.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                bankCode: '3859082'
+                accountNumber: '1501762893'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Mon, 13 Nov 2023 19:35:56 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 516e355163d192dd30e0213d81549295
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Name Enquiry fetched successfully
+                data:
+                  accountName: john doe
+                  accountNumber: '150170985433'
+                  bankCode: '058'
+                  sessionId: jvuHte111323083556PMCargasxascas
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Mon, 13 Nov 2023 19:42:06 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: d95f4afc5fd30972281dae8a41c903db
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Invalid bank code provided
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Failed to initiate account verification. Please try again
+  /banks/banks:
+    get:
+      tags:
+        - Transfers
+      summary: List Banks
+      description: >-
+        This endpoint allows you fetch a list of banks that you can send money
+        to
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /transfer/bank:
+    post:
+      tags:
+        - Transfers
+      summary: Transfer to bank account
+      description: >-
+        This endpoint allows you transfer to a bank account
+
+
+        **Body Params**
+
+
+        - **source** (required) - The customer ID of the customer
+
+        - **accountNumber** (required) **\-** The customer Id of the customer
+        that wants to receive the funds
+
+        - **bankCode** (required) - The amount that should be sent
+
+        - **bankName** (required) - The currency that is used to fund the
+        transfer
+
+        - **amount** (required) - The unique reference of the transaction
+
+        - **narration** (required) - The description of what the transfer is for
+
+        - **currency** (required) - The currency which is used to fund the
+        transfer
+
+        - **reference** (required) - The unique reference of the transaction in
+        your system . This reference must be unique
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                source: 4e628341-7cee-455e-bb9f-5165032f3984
+                accountNumber: '1100004961'
+                bankCode: '50211'
+                bankName: Kuda bank
+                amount: 5000
+                narration: Payment for things
+                currency: NGN
+                reference: REF-74b3d-4501-9ff5-e2j230521426757653403aea33c
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer sk_yoEgfZmZt9yvrauKGdeothqp
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+            X-Cloud-Trace-Context:
+              schema:
+                type: string
+                example: fb4ac4f73cb7427aed50510e9e5ca90b;o=1
+            Date:
+              schema:
+                type: string
+                example: Tue, 05 Dec 2023 20:24:50 GMT
+            Server:
+              schema:
+                type: string
+                example: Google Frontend
+            Cache-Control:
+              schema:
+                type: string
+                example: private
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Operation successful
+                data:
+                  status: true
+                  message: Bank transfer is processing
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Thu, 16 Nov 2023 06:15:23 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: a95f55010206d23f730e7947e62be951
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: >-
+                  The provided reference has already been used for another
+                  transaction. Please use a unique reference.
+  /transfer/wallet:
+    post:
+      tags:
+        - Transfers
+      summary: Wallet to wallet transfer
+      description: >-
+        This endpoint allows you transfer to a wallet
+
+
+        **Body Params**
+
+
+        - **source** (required) - The customer ID of the customer
+
+        - **destination** (required) **\-** The customer Id of the customer that
+        wants to receive the funds
+
+        - **amount** (required) - The amount that should be sent
+
+        - **currency** (required) - The currency that is used to fund the
+        transfer
+
+        - **reference** (required) - The unique reference of the transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                source: 4e628341-7cee-455e-bb9f-5165032f3984
+                destination: 65c7a0bb-ade9-41f8-a267-1c5ed7ca14c4
+                amount: 100
+                narration: Payment for services
+                currency: NGN
+                reference: ono
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Sat, 11 Nov 2023 00:06:33 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 905553bcef5745861c84dbfd3cb1cc06
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Low Balance
+                  value:
+                    status: false
+                    message: Kindly topup your wallet.
+                example-1:
+                  summary: Identical Transaction
+                  value:
+                    status: false
+                    message: >-
+                      The provided reference has already been used for another
+                      transaction. Please use a unique reference.
+  /restrict/{type}/{property}/{id}:
+    post:
+      tags:
+        - Restriction
+      summary: Restrict Property
+      description: >-
+        This endpoint allows you restrict a property
+
+
+        **Body Params**
+
+
+        - **type** (required) - The customer ID of the customer
+
+        - **property** (required) **\-** The customer Id of the customer that
+        wants to receive the funds
+
+        - **id** (required) - The amount that should be sent
+
+        - **amount** (required) - The currency that is used to fund the transfer
+
+        - **reason** (required) - Your reason for restricting the customer.
+
+        - **reference** (required) - The unique reference of the transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                type: wallet
+                property: property_name
+                id: 123
+                amount: 45.67
+                reason: Some reason
+                reference: ref123
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The type of property that you want to  restrict
+        - name: property
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The property that you want to restrict
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique Id of the property that you want to restrict
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /restrict/{reference}:
+    delete:
+      tags:
+        - Restriction
+      summary: Lift Restriction
+      description: This endpoint allows you lift a restriction
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: reference
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique reference of the restriction that you want to lift
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Restriction
+      summary: Get Restriction by Reference
+      description: This endpoint allows you retrieve a restriction by a reference
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: reference
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique reference of the restriction that you want to fetch
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /restrict/{type}/{id}:
+    get:
+      tags:
+        - Restriction
+      summary: Get Restrictions for Property
+      description: This endpoint allows you get all the restrictions for a property
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The type of restriction that you want to fetch
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique Id of the restriction that you want to fetch
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cards/cards:
+    get:
+      tags:
+        - Cards
+      summary: Get All Cards
+      description: This endpoint allows you retrieve all cards belonging a customer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cards/cards/link:
+    post:
+      tags:
+        - Cards
+      summary: Link Card
+      description: This endpoint allows you link a card
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cards/cards/{cardId}/activate:
+    post:
+      tags:
+        - Cards
+      summary: Activate Card
+      description: This endpoint allows you activate a card
+      requestBody:
+        content: {}
+      parameters:
+        - name: cardId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique identifier  of the card that you want to activate
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cards/cards/{cardId}:
+    get:
+      tags:
+        - Cards
+      summary: Fetch Card
+      description: This endpoint allows you retrieve a card
+      parameters:
+        - name: cardId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique identifier of the card that you want to fetch
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cards/cards/{cardId}/block:
+    get:
+      tags:
+        - Cards
+      summary: Block Card
+      description: This endpoint allows you black a card
+      parameters:
+        - name: cardId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique identifier of the card that you want to block
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cards/cards/{cardId}/unblock:
+    get:
+      tags:
+        - Cards
+      summary: Unblock Card
+      description: This endpoint allows you unblock a card
+      parameters:
+        - name: cardId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique identifier of the card that you want to unblock
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cards/cards/{cardId}/terminate:
+    delete:
+      tags:
+        - Cards
+      summary: Terminate Card
+      description: This endpoint allows you terminate a card
+      parameters:
+        - name: cardId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The unique identifier of the card that you want to terminate
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /cards/cards/reset-pin:
+    post:
+      tags:
+        - Cards
+      summary: Reset Card PIN
+      description: This endpoint allows you reset the card pin
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /wallet/interest/toggle/{wallet_id}:
+    get:
+      tags:
+        - Interest
+      summary: Toggle interest status
+      description: This endpoint allows you fetch the status of an interest
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: wallet_id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 'The wallet ID of the customer that you want to enable interest for '
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /wallet/interest/{walletId}:
+    get:
+      tags:
+        - Interest
+      summary: Fetch Accrued Interest
+      description: >-
+        This endpoint lets you retrieve the amount of all the interests received
+        by the customer
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: walletId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 'The wallet ID of the customer that you want to fetch interests for '
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Thu, 16 Nov 2023 12:10:27 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 9038263518de8a103494f1da4dd8c4b5
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Interest accrued for the wallet fetched successfully
+                data:
+                  - id: 9cdb12ae-5eee-4661-af09-e345cdf10447
+                    wallet_id: 5b8ca4fc-b8b7-417c-9a14-f5fb0a196870
+                    balance: 0
+                    percentage: 0.1
+                    interest_date: 14-11-2023
+                    created_at: '2023-11-14T23:00:11.730000000Z'
+                    updated_at: '2023-11-14T23:00:11.730000000Z'
+                  - id: c49028ef-d5ef-47d4-a422-4f158a1c9919
+                    wallet_id: 5b8ca4fc-b8b7-417c-9a14-f5fb0a196870
+                    balance: 0
+                    percentage: 0.1
+                    interest_date: 14-11-2023
+                    created_at: '2023-11-14T08:14:05.631000000Z'
+                    updated_at: '2023-11-14T08:14:05.631000000Z'
+  /wallets:
+    get:
+      tags:
+        - Wallet
+      summary: Get wallets
+      description: This endpoint allows you fetch all wallets
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Sat, 11 Nov 2023 07:06:19 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 538ae565efeec9601ce121f88b4c4cb9
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Retrieved wallet successfully
+                data:
+                  id: 46b0bf50-157d-4611-bd9b-917c8c74bb85
+                  customer_id: db16c15f-415a-4368-8920-9090d791e625
+                  currency: NGN
+                  identifier: 19c994b4-900d-4e47-85ce-861261a6067d
+                  tag: adxvi
+                  created_at: '2023-11-11T07:06:00.586000000Z'
+                  created_by: c096507d-dc32-45d2-9c01-871a27abfd10
+                  updated_at: '2023-11-11T07:06:00.586000000Z'
+                  name: Azeez Adio
+  /wallet/{id}:
+    get:
+      tags:
+        - Wallet
+      summary: Get wallet by ID
+      description: The endpoint allows you retrieve a specific wallet
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The wallet ID for the wallet you want to retrieve details from
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Sat, 11 Nov 2023 07:06:19 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 538ae565efeec9601ce121f88b4c4cb9
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Retrieved wallet successfully
+                data:
+                  id: 46b0bf50-157d-4611-bd9b-917c8c74bb85
+                  customer_id: db16c15f-415a-4368-8920-9090d791e625
+                  currency: NGN
+                  identifier: 19c994b4-900d-4e47-85ce-861261a6067d
+                  tag: adxvi
+                  created_at: '2023-11-11T07:06:00.586000000Z'
+                  created_by: c096507d-dc32-45d2-9c01-871a27abfd10
+                  updated_at: '2023-11-11T07:06:00.586000000Z'
+                  name: Azeez Adio
+  /wallet/create/{mode}:
+    post:
+      tags:
+        - Wallet
+      summary: Create Wallet
+      description: >-
+        This endpoint allows you to create a wallet
+
+
+        **Body Params**
+
+
+        - **customerId** (required) - The customer ID of the customer that you
+        want to create a wallet for
+
+        - **currency** (required) **\-** The currency the wallet should be
+        created in
+
+        - **wallet** (required) - This field contains either multiple objects or
+        a single object comprising the names and tags of your customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                customerId: db16c15f-415a-4368-8920-90
+                currency: NGN
+                wallet:
+                  - name: John doe
+                    tag: johndoe
+                  - name: John dough
+                    tag: johndough
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: mode
+          in: path
+          schema:
+            type: string
+          required: true
+          description: >-
+            Use "bulk" for generating more than one wallet  or use  "single" for
+            generating a single wallet
+          example: bulk
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Sat, 11 Nov 2023 05:22:02 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 6814e063a8fdd2dc21e40b973f8e1541
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Single Wallet
+                  value:
+                    status: false
+                    message: Wallet created successfully
+                    data:
+                      wallet:
+                        id: 72480121-c44a-4c70-9875-d66c534e376c
+                example-1:
+                  summary: Bulk Wallet
+                  value:
+                    status: false
+                    message: Bulk wallets created successfully
+                    data:
+                      wallet:
+                        - id: 576aa15d-0d7b-4a77-b0d2-c045c2c9cac7
+                        - id: cc7985b7-497b-4d78-a0df-d5b5ec44976b
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Sun, 12 Nov 2023 18:49:38 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 1aa14f676c53a5fca96900f7c4ee3b0f
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Create Wallet(tag already exist)
+                  value:
+                    status: false
+                    message: tag already exist
+                example-1:
+                  summary: Bulk Create Wallet(tags already exist)
+                  value:
+                    status: false
+                    message: 'Tag(s) already exist: adxvi, waxmur'
+                example-2:
+                  summary: Max bulk wallet
+                  value:
+                    status: false
+                    message: Cannot create more than 10 wallets in a bulk operation.
+  /wallet/{wallet_id}/balance:
+    get:
+      tags:
+        - Wallet
+      summary: Fetch Wallet Balance
+      description: This endpoint allows you fetch the balance of a wallet
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: wallet_id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: The wallet ID for the wallet you want to retrieve details from
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /wallet/{id}/credit:
+    post:
+      tags:
+        - Wallet
+      summary: credit wallet
+      description: >-
+        This endpoint lets you credit a wallet .
+
+
+        **Body Params**
+
+
+        - **source** (required) - The customer ID of the customer that you want
+        to create a wallet for
+
+        - **destination** (required) **\-** The customer Id of the customer that
+        wants to receive the payment
+
+        - **amount** (required) - The amount that should be sent
+
+        - **currency** (required) - The currency that is used to fund the
+        transfer
+
+        - **reference** (required) - The unique reference of the transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                source: 123e4567-e89b-12d3-a456-426614174001
+                destination: 7207ef13-3f8b-49a8-b99d-ebaeecd5feda
+                amount: 5000
+                narration: Wallet Funding
+                currency: NGN
+                reference: REF-0902672311080110183961000redf
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The wallet ID of the wallet that you want to credit
+          example: 7207ef13-3f8b-49a8-b99d-ebaeecd5feda
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+            X-Cloud-Trace-Context:
+              schema:
+                type: string
+                example: 5da7352748dac27ec8e8ae3fa91cffa1
+            Date:
+              schema:
+                type: string
+                example: Mon, 11 Dec 2023 05:35:19 GMT
+            Server:
+              schema:
+                type: string
+                example: Google Frontend
+            Cache-Control:
+              schema:
+                type: string
+                example: private
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Peer to Peer Wallet transfer made successfully
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Cloud-Trace-Context:
+              schema:
+                type: string
+                example: 30d12e05d2a06e51cdbe62526caacec8
+            Date:
+              schema:
+                type: string
+                example: Mon, 11 Dec 2023 05:35:40 GMT
+            Server:
+              schema:
+                type: string
+                example: Google Frontend
+            Content-Length:
+              schema:
+                type: integer
+                example: '129'
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: credit wallet
+                  value:
+                    status: false
+                    message: >-
+                      The provided reference has already been used for another
+                      transaction. Please use a unique reference.
+                example-1:
+                  summary: credit wallet
+                  value:
+                    status: false
+                    message: Your data is invalid
+                    errors:
+                      - field: destination
+                        message: The destination field is required.
+  /wallet/{id}/debit:
+    post:
+      tags:
+        - Wallet
+      summary: Debit wallet
+      description: >-
+        This endpoint allows you debit a wallet.
+
+
+        **Body Params**
+
+
+        - **source** (required) - The customer ID of the customer that you want
+        to create a wallet for
+            
+        - **destination** (required) **\-** The customer Id of the customer that
+        wants to receive the payment
+            
+        - **amount** (required) - The amount that should be debited
+            
+        - **currency** (required) - The currency that is used to fund the
+        transfer
+            
+        - **reference** (required) - The unique reference of the transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                source: 4e628341-7cee-455e-bb9f-513984
+                destination: 4e628341-7cee-455e-bb9f-5165032
+                amount: 10000000
+                narration: Payment for dodo
+                currency: NGN
+                reference: REF-090267231108011018396100004961
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The wallet ID of the wallet that you want to debit
+          example: 65c7a0bb-ade9-41f8-a267-1c5ed7ca14c4
+      responses:
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            X-Cloud-Trace-Context:
+              schema:
+                type: string
+                example: a1889cb1504c62d213353cb8a8e0b261;o=1
+            Date:
+              schema:
+                type: string
+                example: Mon, 11 Dec 2023 05:37:06 GMT
+            Server:
+              schema:
+                type: string
+                example: Google Frontend
+            Content-Length:
+              schema:
+                type: integer
+                example: '45'
+            Alt-Svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Debit wallet
+                  value:
+                    status: false
+                    message: Wallet not found
+                example-1:
+                  summary: Debit wallet
+                  value:
+                    status: false
+                    message: Kindly topup your wallet.

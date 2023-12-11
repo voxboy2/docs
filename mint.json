@@ -7,15 +7,15 @@
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
+    "primary": "#3D4F60",
     "light": "#07C983",
-    "dark": "#0D9373",
+    "dark": "#3D4F60",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#3D4F60",
+      "to": "#3D4F60"
     }
   },
-  "openapi": "https://app.swaggerhub.com/apis/EBIEROMA324/piggytech-api/1.0.0",
+  "openapi": "/OpenApiSpec.yaml",
   "topbarLinks": [
     {
       "name": "Support",
@@ -30,46 +30,106 @@
     {
       "name": "API Reference",
       "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "name": "API Libraries and SDKs",
+      "url": "api-referencne"
     },
     {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "Get Integration Support",
+      "url": "api-referencne"
+    },
+    {
+      "name": "API Change Logs",
+      "url": "api-referenmnce"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "pages": ["overview", "Set up an account", "quickstart", "use cases" , "authentication", "Getting your IP address whitelisted", "webhooks", "errors", "go live checklist"]
     },
+
     {
-      "group": "Essentials",
-      "pages": ["essentials/markdown", "essentials/code", "essentials/images", "essentials/settings", "essentials/navigation"]
+      "group": "Guides",
+      "pages": ["transfers", "accept payments", "wallet management", "cards", "identity verification"]
     },
+
     {
-      "group": "API Documentation",
-      "pages": ["api-reference/introduction"]
+      "group": "Authentication",
+      "pages": ["api-reference/authentication"]
     },
+
     {
-      "group": "Endpoint Examples",
+      "group": "Customer API",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/customer/customer",
+        "api-reference/customer/create-customer",
+        "api-reference/customer/create-customer-webhook-url",
+        "api-reference/customer/fetch-balance-wallet-aggregate-under-customer",
+        "api-reference/customer/get-all-customers",
+        "api-reference/customer/get-customer-by-id",
+        "api-reference/customer/kyc-customer-request"
+      ]
+    },
+    {
+      "group": "Transfer API",
+      "pages": [
+        "api-reference/transfers/transfers",
+        "api-reference/transfers/transfer-to-bank-account",
+        "api-reference/transfers/list-banks",
+        "api-reference/transfers/verify-account-number",
+        "api-reference/transfers/wallet-to-wallet-transfer"
+      ]
+    },
+
+    {
+      "group": "Cards API",
+      "pages": [
+        "api-reference/cards/card",
+        "api-reference/cards/activate-card",
+        "api-reference/cards/block-card",
+        "api-reference/cards/fetch-card",
+        "api-reference/cards/get-all-cards",
+        "api-reference/cards/link-card",
+        "api-reference/cards/reset-card-pin",
+        "api-reference/cards/terminate-card",
+        "api-reference/cards/unblock-card"
+      ]
+    },
+
+    {
+      "group": "Wallet API",
+      "pages": [
+        "api-reference/wallet/wallet",
+        "api-reference/wallet/create-wallet",
+        "api-reference/wallet/credit-wallet",
+        "api-reference/wallet/debit-wallet",
+        "api-reference/wallet/fetch-wallet-balance",
+        "api-reference/wallet/get-wallet-by-id",
+        "api-reference/wallet/get-wallets"
+      ]
+    },
+
+    {
+      "group": "Interest API",
+      "pages": [
+        "api-reference/interest/fetch-accrued-interest",
+        "api-reference/interest/toggle-interest-status"
+      ]
+    },
+
+    {
+      "group": "Restriction API",
+      "pages": [
+        "api-reference/restriction/restriction",
+        "api-reference/restriction/get-restriction-by-reference",
+        "api-reference/restriction/get-restrictions-for-property",
+        "api-reference/restriction/lift-restriction",
+        "api-reference/restriction/restrict-property"
       ]
     }
+
   ],
   "footerSocials": {
     "twitter": "https://twitter.com/mintlify",
