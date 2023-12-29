@@ -72,7 +72,7 @@
 
     {
       "group": "Identity verification",
-      "pages": ["identity-verification", "name-enquiry", "customer-kyc"]
+      "pages": ["identity-verification", "resolve-bank-account", "customer-kyc"]
     },
 
 
