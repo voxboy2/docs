@@ -1,0 +1,97 @@
+---
+title: Piggyvest Webhook
+---
+
+When integrating Piggyvest API, your system should be able to receive events happening in your Piggyvest accounts. To do that, you can add a Webhook URL on your dashboard so that your system or application can use the notification received to update a record, perform an action on your application, etc.
+
+To enable webhook events, you should register the webhook endpoint where you want to receive notifications. After adding your webhook URL, Piggyvest can push real-time event data to your webhook endpoint when events happen in your Piggyvest account. 
+
+
+<Note>
+
+- A webhook URL is an endpoint on your server that can receive API requests from Piggyvest. It's important to note that these requests come as HTTP POST requests. 
+
+- Piggyvest uses  HTTPS to send webhook events to your application as a JSON payload with an Event object. 
+
+</Note>
+
+
+
+## Create the Webhook Url
+A webhook URL is a post endpoint that receives notifications from a server. The URL needs to parse a JSON request and return a 200 OK:
+
+Add Your Webhook Url
+
+```json webhook.json
+app.post("/my/webhook/url", function(req, res) {
+    // Retrieve the request's body
+    const event = req.body;
+    // Do something with event
+    res.send(200);
+});
+```
+ 
+
+
+## Verify event origin
+It's important to note that your webhook URL is publicly available to anyone or system globally. To safeguard against potential misuse or exploitation of your webhook URL, you should verify your webhooks. 
+
+There are two ways to ensure events to your webhook URL are from Piggyvest :
+
+- Signature validation
+- IP whitelisting
+
+
+### IP whitelisting
+To be written
+
+
+## Structure of piggyvest webhook payload
+
+| Field | Value | Data Type |
+| --- | --- | --- |
+| eventId | unique uuid to identify webhooks | String |
+| customer | customer object | Object |
+| eventData | Webhook data object | Object |
+| eventType | Type of the webhook event | String |
+| eventCategory | Category of the webhook event | String |
+
+### Sample Webhook Event
+```json webhook-event.json
+{
+    eventId: "a5b27e70-5fec-4154-89b3-c2780c6c722b",
+    customer: {
+        id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+        name: "Wale Enterprises",
+        tier: "Tier 1",
+        type: "Business",
+        email: "wale@enterprise.com",
+        phone: "09131342134",
+        country: "NG",
+        created_at: "2023-11-16T03:22:49.121000000Z",
+        created_by: "c096507d-dc32-45d2-9c01-871a27abfd10",
+        identifier: "393efff232-22332",
+        updated_at: "2023-11-16T03:22:49.121000000Z",
+        identity_number: null
+    },
+    eventData: {
+        tag: "waledoeeee",
+        name: "Wade doe",
+        email: "awtim01@gmail.com",
+        phone: "08101662910",
+        walletId: "bf327847-7544-4255-855e-7360464cfccf",
+        customerId: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+        identifier: "abcde1234"
+    },
+    eventType: "create-wallet.success",
+    eventCategory: "create_wallet"
+}
+```
+
+
+
+
+
+
+
+
