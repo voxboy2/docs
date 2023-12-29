@@ -47,11 +47,11 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["overview", "create account", "authentication", "Getting your IP address whitelisted", "webhooks", "errors", "go live checklist"]
+      "pages": ["overview", "create-account", "authentication", "Getting your IP address whitelisted", "webhooks", "errors", "go live checklist"]
     },
 
     {
-      "group": "Guides",
+      "group": "Transfers guide",
       "pages": ["transfers"]
     },
 
