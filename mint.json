@@ -47,13 +47,34 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["overview", "Set up an account", "quickstart", "use cases" , "authentication", "Getting your IP address whitelisted", "webhooks", "errors", "go live checklist"]
+      "pages": ["overview", "create account", "authentication", "Getting your IP address whitelisted", "webhooks", "errors", "go live checklist"]
     },
 
     {
       "group": "Guides",
-      "pages": ["transfers", "accept payments", "wallet management", "cards", "identity verification"]
+      "pages": ["transfers"]
     },
+
+    {
+      "group": "Accept payments",
+      "pages": ["bank accounts"]
+    },
+
+    {
+      "group": "Wallets ",
+      "pages": ["wallets"]
+    },
+
+    {
+      "group": "Cards",
+      "pages": ["cards"]
+    },
+
+    {
+      "group": "Identity verification",
+      "pages": ["identity verification"]
+    },
+
 
     {
       "group": "Authentication",

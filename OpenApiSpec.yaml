@@ -1462,11 +1462,11 @@ paths:
         **Body Params**
 
 
-        - **source** (required) - The customer ID of the customer that you want
-        to create a wallet for
+        - **source** (required) - The wallet ID of the customer sending the fund
+       
 
-        - **destination** (required) **\-** The customer Id of the customer that
-        wants to receive the payment
+        - **destination** (required) **\-** The wallet Id of the wallet receiving the funds
+        
 
         - **amount** (required) - The amount that should be sent
 
@@ -1606,11 +1606,11 @@ paths:
         **Body Params**
 
 
-        - **source** (required) - The customer ID of the customer that you want
-        to create a wallet for
+        - **source** (required) - The wallet ID of the wallet that you want
+        to debit.
             
-        - **destination** (required) **\-** The customer Id of the customer that
-        wants to receive the payment
+        - **destination** (required) **\-** The wallet Id of the wallet that
+        will received the funds.
             
         - **amount** (required) - The amount that should be debited
             
