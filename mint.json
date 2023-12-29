@@ -52,7 +52,7 @@
 
     {
       "group": "Transfers guide",
-      "pages": ["transfers", "bank-transfers", "wallet-transfers", "transfer-webhhooks"]
+      "pages": ["transfers", "bank-transfers", "wallet-transfers", "transfer-webhooks"]
     },
 
     {
@@ -72,7 +72,7 @@
 
     {
       "group": "Identity verification",
-      "pages": ["identity verification"]
+      "pages": ["identity-verification", "name-enquiry", "customer-kyc"]
     },
 
 
