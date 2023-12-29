@@ -52,7 +52,7 @@
 
     {
       "group": "Transfers guide",
-      "pages": ["transfers"]
+      "pages": ["transfers", "bank-transfers", "wallet-transfers", "transfer-webhhooks"]
     },
 
     {
@@ -67,7 +67,7 @@
 
     {
       "group": "Cards",
-      "pages": ["cards"]
+      "pages": ["cards", "card-webhooks"]
     },
 
     {
