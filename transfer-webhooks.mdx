@@ -1,3 +1,241 @@
 ---
 title:  Webhooks for transfers
 ---
+
+Explore further information about our `transfer` webhooks and the different types of events we support:
+
+### Bank Transfer webhooks
+The webhook in this section details the webhook event that will be received when payment is initiated to a bank account
+
+Transaction initialized
+```json bank-transfer-outflow-initialized.json
+{
+    eventId: "765696c7-13a9-4774-a407-9676db866fee",
+    eventData: {
+        fee: 1129,
+        type: "inter",
+        amount: 5000,
+        category: "bank_transfer_outflow",
+        currency: "NGN",
+        narration: "Payment for something",
+        customerId: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+        serviceType: "INSTANT_TRANSFER",
+        sourceWallet: "5b63d94b-e6e2-4400-8cb4-0a7c935d200b",
+        destinationWallet: "123e4567-e89b-12d3-a456-426614174001",
+        recipientBankCode: "50211",
+        initiatorReference: "REF-74b3d-4501-9fef5555tfj666788993g221472e63",
+        internal_reference: "34c27f3d-7baa-4156-a6e7-6995f9bfe034",
+        recipientAccountName: "",
+        recipientAccountNumber: "1100004961"
+    },
+    eventType: "bank-transfer.outflow.initialized",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventCategory: "bank_transfer"
+}
+```
+
+Transaction Pending
+```json bank-transfer-pending.json
+{
+    eventId: "929dce44-396b-4c37-a079-cc89bf0863f7",
+    eventData: {
+        id: "b98c3bef-ffb2-4e53-bf8a-1ccf851127ac",
+        amount: 5000,
+        status: "Pending",
+        currency: "NGN",
+        source_wallet_id: "5b63d94b-e6e2-4400-8cb4-0a7c935d200b"
+    },
+    eventType: "bank-transfer.outflow.pending",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventCategory: "bank_transfer"
+}
+```
+
+Transaction Successful
+```json bank-transfer-successful.json
+{
+    eventId: "a9a03252-e998-4b5f-b6ac-e9fc1b024700",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventData: {
+        id: "6f347aef-33ad-4e95-82b5-3e8f1b3f425d",
+        type: "inter",
+        amount: 500,
+        status: "COMPLETED",
+        category: "p2p",
+        currency: "NGN",
+        narration: "Wallet Funding",
+        timestamp: "2023-12-06T19:23:50.483Z",
+        created_at: "2023-12-06T19:23:50.485000000Z",
+        ip_address: "127.0.0.1",
+        session_id: null,
+        updated_at: "2023-12-06T19:24:19.626000000Z",
+        customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+        response_code: null,
+        transaction_id: "5f1ffb2b-6793-4295-985d-a0246f1b9b53",
+        response_message: null,
+        source_wallet_id: "5b63d94b-e6e2-4400-8cb4-0a7c935d200b",
+        initiator_reference: "REF-090267280r56673ftrd54456cbkjn63eytthkoolkr4",
+        recipient_bank_code: null,
+        recipient_bank_name: null,
+        sourceWalletBalance: 9981500,
+        third_party_reference: "REF-090267280r56673ftrd54456cbkjn63eytthkoolkr4",
+        recipient_bank_account_name: null,
+        recipient_bank_account_number: null,
+				destinationWalletBalance: 1500,
+				sourceWalletBalance: 1500,
+    },
+    eventType: "bank-transfer.outflow.success",
+    eventCategory: "bank_transfer"
+}
+```
+
+Transaction Failed
+
+```json bank-transfer-failed.json
+
+{
+    eventId: "a9a03252-e998-4b5f-b6ac-e9fc1b024700",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventData: {
+        id: "6f347aef-33ad-4e95-82b5-3e8f1b3f425d",
+        type: "inter",
+        amount: 500,
+        status: "FAILED",
+        category: "p2p",
+        currency: "NGN",
+        narration: "Wallet Funding",
+        timestamp: "2023-12-06T19:23:50.483Z",
+        created_at: "2023-12-06T19:23:50.485000000Z",
+        ip_address: "127.0.0.1",
+        session_id: null,
+        updated_at: "2023-12-06T19:24:19.626000000Z",
+        customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+        response_code: null,
+        transaction_id: "5f1ffb2b-6793-4295-985d-a0246f1b9b53",
+        response_message: null,
+        source_wallet_id: "5b63d94b-e6e2-4400-8cb4-0a7c935d200b",
+        initiator_reference: "REF-090267280r56673ftrd54456cbkjn63eytthkoolkr4",
+        recipient_bank_code: null,
+        recipient_bank_name: null,
+        sourceWalletBalance: 9981500,
+        third_party_reference: "REF-090267280r56673ftrd54456cbkjn63eytthkoolkr4",
+        recipient_bank_account_name: null,
+        recipient_bank_account_number: null,
+				destinationWalletBalance: 1500,
+				sourceWalletBalance: 1500,
+    },
+    eventType: "bank-transfer.outflow.failed",
+    eventCategory: "bank_transfer"
+}
+```
+
+### 
+
+
+### Wallet to wallet transfer webhooks
+The webhook in this section details the webhook event that will be received when payment is made to a wallet.
+
+Wallet transfer processing
+```json  transfer-processing.json
+{
+    eventId: "feda96aa-7a73-46ce-9fe9-198258096288",
+    eventData: {
+        fee: 1129,
+        type: "inter",
+        amount: 100,
+        category: "p2p",
+        currency: "NGN",
+        narration: "Payment for services",
+        customerId: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+        serviceType: "INSTANT_TRANSFER",
+        sourceWallet: "5b63d94b-e6e2-4400-8cb4-0a7c935d200b",
+        destinationWallet: "003e3a8f-975c-45b7-8dbf-7ded341ca0aa",
+        initiatorReference: "REF-09026723080110323218391000049612153",
+        internal_reference: "0c7b5f48-f3cf-46be-8a61-3c8887a6506c"
+    },
+    eventType: "wallet-transfer.outflow.processing",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventCategory: "wallet_transfer"
+}
+```
+
+Wallet transfer Pending
+
+```json  transfer-pending.json
+{
+    eventId: "3c417cd4-f023-4ff8-b631-b1c2d8941e74",
+    eventData: {
+        type: "inter",
+        amount: 100,
+        category: "p2p",
+        currency: "NGN",
+        narration: "Payment for services",
+        internal_reference: "0c7b5f48-f3cf-46be-8a61-3c8887a6506c"
+    },
+    eventType: "wallet-transfer.outflow.pending",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventCategory: "wallet_transfer"
+}
+``` 
+
+Wallet transfer Successful
+
+```json  transfer-successful.json
+{
+    eventId: "a275316c-787a-4f39-895c-f6bdb7cc5b76",
+    eventData: {
+        id: "c9159be5-0b4d-4119-ac94-6993d2739af3",
+        type: "inter",
+        amount: 100,
+        status: "COMPLETED",
+        category: "p2p",
+        currency: "NGN",
+        narration: "Payment for services",
+        timestamp: "2023-12-27T13:22:01.103Z",
+        ip_address: "127.0.0.1",
+        customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+        transaction_id: "35000733-d2fc-44ea-964b-f6d44b988650",
+        source_wallet_id: "5b63d94b-e6e2-4400-8cb4-0a7c935d200b",
+        internal_reference: "0c7b5f48-f3cf-46be-8a61-3c8887a6506c",
+        initiator_reference: "REF-09026723080110323218391000049612153",
+        sourceWalletBalance: 10950476,
+        destination_wallet_id: "003e3a8f-975c-45b7-8dbf-7ded341ca0aa",
+        third_party_reference: "REF-09026723080110323218391000049612153",
+        destinationWalletBalance: 200
+    },
+    eventType: "wallet-transfer.outflow.success",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventCategory: "wallet_transfer"
+}
+```
+
+### Payin
+The webhook in this section details the webhook event that will be received when payment is received in your virtual account
+
+```json bank-transfer-inflow-successful.json
+
+{
+    eventId: "98269df9-20d3-4b59-81fd-0bf532d74e0d",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventData: {
+        sourceWallet: null;
+			  destinationWallet: string;
+			  customerId: string;
+			  amount: number;
+			  currency: "NGN";
+			  type: "inflow";
+			  category: "bank_transfer_inflow";
+			  serviceType: "INSTANT_TRANSFER";
+			  sender_name: string;
+			  recipientBankCode: string;
+			  recipientAccountNumber: string;
+			  recipientAccountName: string;
+			  initiatorReference: string;
+			  narration: string;
+			  fee: number;
+				destinationWalletBalance: 1500,
+    },
+    eventType: "bank-transfer.inflow.success",
+    eventCategory: "bank_transfer"
+}
+```
