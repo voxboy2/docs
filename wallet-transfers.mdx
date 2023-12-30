@@ -1,3 +1,53 @@
 ---
 title: Transfer to Wallets
 ---
+
+Transfer to bank Wallets
+This section explains the parameters and steps that are needed to send money to a wallet on the piggyvest platform. The process for wallet transfer involves initiating a POST request through our wallet-to-wallet transfer API.
+
+## Step-by-step process on how to make a transfer to a wallet
+
+The following steps need to be taken to process payments to a bank account:
+
+## 1. Verify the wallet number
+This step is crucial, ensure that you are sending the funds to the correct wallet.
+
+## 2. Request transfer
+Make an API call to the wallet transfer endpoint with the required parameters below.
+
+**Parameters**
+
+| Property               | Description                                                                           |
+| ---------------------- | ------------------------------------------------------------------------------------- |
+| source (required)      | The wallet ID of wallet sending the funds                                             |
+| destination (required) | The wallet ID of wallet receiving the funds                                           |
+| amount (required)      | The unique reference of the transaction                                               |
+| narration (required)   | The description of what the transfer is for                                           |
+| currency (required)    | The currency which is used to fund the transfer                                       |
+| reference (required)   | The unique reference of the transaction in your system. This reference must be unique |
+
+<CodeGroup>
+
+```json request.json
+{
+  "source": "4e628341-7cee-455e-bb9f-5165032f3",
+  "destination": "65c7a0bb-ade9-41f8-a267-1c5ed7ca1",
+  "amount": 100,
+  "narration": "Payment for services",
+  "currency": "NGN",
+  "reference": "REF-090267231108011035232321839adfd6100"
+}
+```
+
+```json response.json
+{
+  "status": true,
+  "message": "Peer to Peer Wallet transfer made successfully"
+}
+```
+
+</CodeGroup>
+
+## 3. Verify payment
+
+It's crucial to verify the transaction by using your reference. Even though the webhook was visited it doesn't guarantee the transaction's success. In case the webhook notification fails to reach your server, confirming the payout through the verify payment endpoint is necessary.
