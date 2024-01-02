@@ -7,7 +7,8 @@ Explore further information about our `transfer` webhooks and the different type
 ### Bank Transfer webhooks
 The webhook in this section details the webhook event that will be received when payment is initiated to a bank account
 
-Transaction initialized
+**Transaction initialized** : This event is dispatched whenever a bank transfer  is initialized
+
 ```json bank-transfer-outflow-initialized.json
 {
     eventId: "765696c7-13a9-4774-a407-9676db866fee",
@@ -34,7 +35,8 @@ Transaction initialized
 }
 ```
 
-Transaction Pending
+**Transaction Pending** : This event is dispatched whenever a bank transfer  is pending
+
 ```json bank-transfer-pending.json
 {
     eventId: "929dce44-396b-4c37-a079-cc89bf0863f7",
@@ -51,7 +53,8 @@ Transaction Pending
 }
 ```
 
-Transaction Successful
+**Transaction Successful** : This event is dispatched whenever a bank transfer is successful
+
 ```json bank-transfer-successful.json
 {
     eventId: "a9a03252-e998-4b5f-b6ac-e9fc1b024700",
@@ -89,7 +92,8 @@ Transaction Successful
 }
 ```
 
-Transaction Failed
+**Transaction Failed** : This event is dispatched whenever a bank transfer fails
+
 
 ```json bank-transfer-failed.json
 
@@ -135,7 +139,8 @@ Transaction Failed
 ### Wallet to wallet transfer webhooks
 The webhook in this section details the webhook event that will be received when payment is made to a wallet.
 
-Wallet transfer processing
+**Wallet transfer processing** : This event is dispatched whenever a wallet transfer is processing
+
 ```json  transfer-processing.json
 {
     eventId: "feda96aa-7a73-46ce-9fe9-198258096288",
@@ -159,7 +164,7 @@ Wallet transfer processing
 }
 ```
 
-Wallet transfer Pending
+**Wallet transfer Pending** : This event is dispatched whenever a wallet transfer is pending
 
 ```json  transfer-pending.json
 {
@@ -178,7 +183,7 @@ Wallet transfer Pending
 }
 ``` 
 
-Wallet transfer Successful
+**Wallet transfer Successful** : This event is dispatched whenever a wallet transfer is successful
 
 ```json  transfer-successful.json
 {
@@ -206,36 +211,5 @@ Wallet transfer Successful
     eventType: "wallet-transfer.outflow.success",
     customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
     eventCategory: "wallet_transfer"
-}
-```
-
-### Payin
-The webhook in this section details the webhook event that will be received when payment is received in your virtual account
-
-```json bank-transfer-inflow-successful.json
-
-{
-    eventId: "98269df9-20d3-4b59-81fd-0bf532d74e0d",
-    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
-    eventData: {
-        sourceWallet: null;
-			  destinationWallet: string;
-			  customerId: string;
-			  amount: number;
-			  currency: "NGN";
-			  type: "inflow";
-			  category: "bank_transfer_inflow";
-			  serviceType: "INSTANT_TRANSFER";
-			  sender_name: string;
-			  recipientBankCode: string;
-			  recipientAccountNumber: string;
-			  recipientAccountName: string;
-			  initiatorReference: string;
-			  narration: string;
-			  fee: number;
-				destinationWalletBalance: 1500,
-    },
-    eventType: "bank-transfer.inflow.success",
-    eventCategory: "bank_transfer"
 }
 ```

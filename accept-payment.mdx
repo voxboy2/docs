@@ -1,0 +1,30 @@
+### Payin
+The webhook in this section details the webhook event that will be received when payment is received in your virtual account
+
+```json bank-transfer-inflow-successful.json
+
+{
+    eventId: "98269df9-20d3-4b59-81fd-0bf532d74e0d",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventData: {
+        sourceWallet: null;
+			  destinationWallet: string;
+			  customerId: string;
+			  amount: number;
+			  currency: "NGN";
+			  type: "inflow";
+			  category: "bank_transfer_inflow";
+			  serviceType: "INSTANT_TRANSFER";
+			  sender_name: string;
+			  recipientBankCode: string;
+			  recipientAccountNumber: string;
+			  recipientAccountName: string;
+			  initiatorReference: string;
+			  narration: string;
+			  fee: number;
+				destinationWalletBalance: 1500,
+    },
+    eventType: "bank-transfer.inflow.success",
+    eventCategory: "bank_transfer"
+}
+```

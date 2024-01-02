@@ -2,13 +2,13 @@
 title: Transfer to banks
 ---
 
-This section explains the parameters that are needed to send money to a bank account. The process for bank account transfers involves initiating a POST request through our Transfer API.
+This section explains the parameters that are needed to send money to a bank account. The process for bank account transfers involves initiating a POST request through our [Transfer API](/api-reference/transfers/transfer-to-bank-account).
 
 ## Step by step process on how to make a bank transfer 
 The following steps need to be taken in order to process payments to a bank account:
 
 ## 1. Verify the account number: 
-The account number of the recipient should be verified using the resolve account API. 
+The account number of the recipient should be verified using the [verify account number API](/api-reference/transfers/verify-account-number). 
 
 
 <CodeGroup>
@@ -35,7 +35,7 @@ The account number of the recipient should be verified using the resolve account
 </CodeGroup>
 
 ## 2. Request payout: 
-Make an API call to the payout endpoint with the required parameters below. 
+Make an API call to the [transfer endpoint](/api-reference/transfers/transfer-to-bank-account) with the required parameters below. 
 
 **Parameters**
 
