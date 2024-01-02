@@ -113,10 +113,10 @@ Please check the payout webhook page for further details on the different types 
 import crypto from "crypto";
 
 const encryptedData =  crypto
-      .createHmac("SHA512", merchantWebhookSecretKey)
+      .createHmac("SHA512", your API key)
       .update(JSON.stringify(payload)) 
       .digest("hex");
-const signatureFromWebhook = req.headers['signature'];
+const signatureFromWebhook = req.headers['x-piggytech-signature'];
 
 if(encryptedData === signatureFromWebhook) {
   console.log("process");

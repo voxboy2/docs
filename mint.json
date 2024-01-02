@@ -47,7 +47,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["overview", "authentication", "IP-whitelisting", "webhooks", "errors", "go-live"]
+      "pages": ["overview", "authentication", "webhooks", "errors", "go-live"]
     },
 
     {

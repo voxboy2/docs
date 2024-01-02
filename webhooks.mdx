@@ -42,9 +42,25 @@ There are two ways to ensure events to your webhook URL are from Piggyvest :
 - IP whitelisting
 
 
-### IP whitelisting
-To be written
+### Signature validation
+Before processing the webhook received from PiggyVest, the merchant should verify the HMAC SHA256 signature in the 'x-piggytech-signature' header by comparing it with the received signature; proceeding  only if the signatures match to ensure the integrity of the event payload and prevent unauthorized access
 
+```json webhook-validation.json
+import crypto from "crypto";
+
+const encryptedData =  crypto
+      .createHmac("SHA256", your API key)
+      .update(JSON.stringify(payload)) 
+      .digest("hex");
+const signatureFromWebhook = req.headers['x-piggytech-signature'];
+
+if(encryptedData === signatureFromWebhook) {
+  console.log("process");
+}
+else {
+  console.log("discard");
+}
+```
 
 ## Structure of piggyvest webhook payload
 
