@@ -98,9 +98,7 @@ paths:
                   description: The interest rate that you want to set for the customer
                 interestEnabled:
                   type: string
-                  description: >-
-                    This field allows you enable or disable the customer's
-                    interest.
+                  description: This field allows you enable or disable the customer's interest.
       security:
         - bearerAuth: []
       parameters:
@@ -108,6 +106,12 @@ paths:
           in: header
           schema:
             type: string
+        - in: query
+          name: parentId
+          required: false
+          schema:
+            type: string
+          description: The ID of the parent account i.e your ID
       responses:
         '200':
           description: OK
@@ -1232,7 +1236,63 @@ paths:
                   created_by: c096507d-dc32-45d2-9c01-871a27abfd10
                   updated_at: '2023-11-11T07:06:00.586000000Z'
                   name: Azeez Adio
-  /wallet/{id}:
+  /wallet:
+    get:
+      tags:
+        - Wallet
+      summary: Get wallet by reference
+      description: The endpoint allows you retrieve a specific wallet by it's reference
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: reference
+          in: query
+          schema:
+            type: string
+          required: true
+          description: The wallet reference for the wallet you want to retrieve details from
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Sat, 11 Nov 2023 07:06:19 GMT
+            Ngrok-Trace-Id:
+              schema:
+                type: string
+                example: 538ae565efeec9601ce121f88b4c4cb9
+            Vary:
+              schema:
+                type: string
+                example: Accept-Encoding
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Retrieved wallet successfully
+                data:
+                  id: 46b0bf50-157d-4611-bd9b-917c8c74bb85
+                  customer_id: db16c15f-415a-4368-8920-9090d791e625
+                  currency: NGN
+                  identifier: 19c994b4-900d-4e47-85ce-861261a6067d
+                  tag: adxvi
+                  created_at: '2023-11-11T07:06:00.586000000Z'
+                  created_by: c096507d-dc32-45d2-9c01-871a27abfd10
+                  updated_at: '2023-11-11T07:06:00.586000000Z'
+                  name: Azeez Adio
+  /wallet/{id}: 
     get:
       tags:
         - Wallet
@@ -1288,6 +1348,7 @@ paths:
                   created_by: c096507d-dc32-45d2-9c01-871a27abfd10
                   updated_at: '2023-11-11T07:06:00.586000000Z'
                   name: Azeez Adio
+  
   /wallet/create/{mode}:
     post:
       tags:
@@ -1308,6 +1369,9 @@ paths:
 
         - **wallet** (required) - This field contains either multiple objects or
         a single object comprising the names and tags of your customers
+
+        - **reference** (optional) - The unique identifier of the wallet. If 
+        you do not pass this parameter, we will generate a unique reference for you.
       requestBody:
         content:
           application/json:

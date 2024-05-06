@@ -133,6 +133,7 @@
         "api-reference/wallet/debit-wallet",
         "api-reference/wallet/fetch-wallet-balance",
         "api-reference/wallet/get-wallet-by-id",
+        "api-reference/wallet/get-wallet-by-reference",
         "api-reference/wallet/get-wallets"
       ]
     },
