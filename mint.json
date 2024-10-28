@@ -67,7 +67,7 @@
 
     {
       "group": "Wallets Module ",
-      "pages": ["wallets/wallet-overview", "wallets/managing-wallets"]
+      "pages": ["wallets/wallet-overview"]
     },
 
     {
