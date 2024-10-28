@@ -51,13 +51,13 @@
     },
 
     {
-      "group": "Customer Module",
+      "group": "Customers",
       "pages": ["customers/customer-overview"]
     },
 
     {
-      "group": "Transfers Module",
-      "pages": ["transfers", "bank-transfers", "wallet-transfers", "transfer-webhooks"]
+      "group": "Transfers ",
+      "pages": ["transfers/transfer-overview", "bank-transfers", "wallet-transfers", "transfer-webhooks"]
     },
 
     {
@@ -66,7 +66,7 @@
     },
 
     {
-      "group": "Wallets Module ",
+      "group": "Wallets ",
       "pages": ["wallets/wallet-overview"]
     },
 

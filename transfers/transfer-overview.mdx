@@ -1,0 +1,210 @@
+---
+title: Overview
+---
+With a piggyvest account, you can conveniently and efficiently initiate and manage funds transfers internally and externally to various accounts. Piggyvest provides different options to match your use case.
+
+## Learn how you can make payments to:
+- Banks
+- Piggyvest wallets
+
+
+## Transfer to a bank
+This section explains the parameters that are needed to send money to a bank account. The process for bank account transfers involves initiating a POST request through our Transfer API.
+Step by step process on how to make a bank transfer
+
+The following steps need to be taken in order to process payments to a bank account:
+​
+### Verify the account number
+The account number of the recipient should be verified using the verify account number API.
+
+
+```tsx verify account number
+  "bankCode": "3859082",
+  "accountNumber": "1501762893"
+```
+​
+### Request payout
+Make an API call to the transfer endpoint with the required parameters below.
+
+Parameters
+
+| Parameters  | Description | Mandatory |
+| --- | --- | --- |
+| source| The customer ID of the customer.  | Required |
+| accountNumber| The customer Id of the customer that wants to receive the funds | Required |
+| bankCode | The amount that should be sent | Required |
+| bankName | The currency that is used to fund the transfer | Required |
+| amount|The unique reference of the transaction| |
+| narration| The description of what the transfer is for| Required |
+| currency | The currency which is used to fund the transfer| Required |
+| reference | The unique reference of the transaction in your system . This reference must be unique | Required |
+
+
+The payload should look like this
+
+```tsx transfer
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/transfer/bank
+const payload = {
+    amount: 500000,
+    narration: "Transfer to user 2",
+    currency: "NGN",
+    source: "f3ad0937-1d03-4843-b3d3-a09210967e49",
+    accountNumber: "0743399098",
+    bankCode: "3164567",
+    reference: "7bc2dfe9-fad4-48d7-af45-87b55baca2e9"
+}
+
+await axios.post(url, payload, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+The response should look like the below 
+
+<CodeGroup>
+
+```tsx Transaction processing
+{
+    "status": true,
+    "message": "Bank transfer is processing"
+}
+```
+
+```tsx Insufficient funds(400 status code)
+{
+  "status": false,
+  "message": "Insufficient funds"
+}
+```
+
+```tsx Transfer error
+{
+  "status": false,
+  "message": "An error occurred processing bank transfer"
+}
+```
+</CodeGroup>
+
+
+NOTE: Please note that a 200 successful response is an indication that the request
+has been scheduled to process successfully, This is not the final confirmation of
+the transaction status. For final confirmation either wait for webhooks or have a re-query
+strategy to do TSQ at intervals till the transaction status is "successful" or 
+"failed"
+​
+### Receive and validate webhook notification
+Listen for webhook events. We will send a notification to your webhook URL that indicates the transfer status. Read our guide on securing and validating the webhook notification on your end. 
+Please check the payout webhook page for further details on the different types webhook structures and body
+
+
+```tsx webhook
+{
+    eventId: "a9a03252-e998-4b5f-b6ac-e9fc1b024700",
+    customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+    eventData: {
+        id: "6f347aef-33ad-4e95-82b5-3e8f1b3f425d",
+        type: "inter",
+        amount: 500,
+        status: "COMPLETED",
+        category: "p2p",
+        currency: "NGN",
+        narration: "Wallet Funding",
+        timestamp: "2023-12-06T19:23:50.483Z",
+        created_at: "2023-12-06T19:23:50.485000000Z",
+        ip_address: "127.0.0.1",
+        session_id: null,
+        updated_at: "2023-12-06T19:24:19.626000000Z",
+        customer_id: "cb184fea-5fbe-4977-91cf-774e4e31f257",
+        response_code: null,
+        transaction_id: "5f1ffb2b-6793-4295-985d-a0246f1b9b53",
+        response_message: null,
+        source_wallet_id: "5b63d94b-e6e2-4400-8cb4-0a7c935d200b",
+        initiator_reference: "REF-090267280r56673ftrd54456cbkjn63eytthkoolkr4",
+        recipient_bank_code: null,
+        recipient_bank_name: null,
+        sourceWalletBalance: 9981500,
+        third_party_reference: "REF-090267280r56673ftrd54456cbkjn63eytthkoolkr4",
+        recipient_bank_account_name: null,
+        recipient_bank_account_number: null,
+				destinationWalletBalance: 1500,
+				sourceWalletBalance: 1500,
+    },
+    eventType: "bank-transfer.outflow.success",
+    eventCategory: "bank_transfer"
+}
+```
+### Verify payment
+It’s crucial to verify the transaction by using your reference. Even though the webhook was visited it doesn’t guarantee the transaction’s success. In case the webhook notification fails to reach your server, confirming the payout through the verify payment endpoint is necessary.
+
+
+
+## Transfer to a wallet
+For transfer from one piggyvest wallet to another wallet under your account, Use the following parameters
+
+| Parameters  | Description | Mandatory |
+| --- | --- | --- |
+| amount| Amount In **KOBO**.  | Required |
+| source| Source wallet id. This wallet will be debited | Required |
+| destination | Destination wallet id. This wallet will be credited | Required |
+| currency | Must be **NGN** | Required |
+| reference|The unique reference of the transaction| |
+| narration| The description of what the transfer is for| Required |
+| currency | The currency which is used to fund the transfer| Required |
+| reference | The unique reference of the transaction in your system . This reference must be unique .You will get back this reference upon receiving webhooks and can use it to run TSQ. | Required |
+
+
+```tsx transfer
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/transfer/wallet
+const payload = {
+    amount: 500000,
+    narration: "Transfer to user 2",
+    currency: "NGN",
+    source: "f3ad0937-1d03-4843-b3d3-a09210967e49",
+    destination: "023f843a-be7e-494a-bc5d-9f49f4cc640f",
+    reference: "7bc2dfe9-fad4-48d7-af45-87b55baca2e9"
+}
+
+await axios.post(url, payload, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+ })
+```
+
+
+Sample success response below
+
+```
+{
+    "status": true,
+    "message": "Peer to Peer Wallet transfer processing"
+}
+```
+
+NOTE: Please note that a 200 successful response is an indication that the request
+has been scheduled to process successfully, This is not the final confirmation of
+the transaction status. For final confirmation either wait for webhooks or have a re-query
+strategy to do TSQ at intervals till the transaction status is "successful" or 
+"failed"
+
+Error Response, 400 status code
+```
+{
+  "status": false,
+  "message": "Insufficient funds"
+}
+```
+```
+{
+  "status": false,
+  "message": "An error occurred processing wallet transfer"
+}
+```
