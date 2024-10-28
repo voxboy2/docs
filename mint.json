@@ -47,12 +47,12 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["overview", "authentication", "webhooks", "errors", "go-live"]
+      "pages": ["get-started/overview", "get-started/authentication", "get-started/webhooks"]
     },
 
     {
       "group": "Customer Module",
-      "pages": ["customers", "managing-customers"]
+      "pages": ["customers/customer-overview"]
     },
 
     {
@@ -67,19 +67,8 @@
 
     {
       "group": "Wallets Module ",
-      "pages": ["wallets", "managing-wallets"]
+      "pages": ["wallets/wallet-overview", "wallets/managing-wallets"]
     },
-
-    {
-      "group": "Cards",
-      "pages": ["cards", "card-webhooks"]
-    },
-
-    {
-      "group": "Identity verification",
-      "pages": ["identity-verification", "resolve-bank-account", "customer-kyc"]
-    },
-
 
     {
       "group": "Authentication",

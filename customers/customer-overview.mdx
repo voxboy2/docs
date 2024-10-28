@@ -1,0 +1,131 @@
+---
+title:  Overview 
+---
+**Unlock the power of your platform with our flexible customer management API.** Create an unlimited number of customers representing individuals or businesses, and effortlessly generate default wallets for each.
+
+> A customer is any user with an account on our platform, actively engaging with our products. To establish a presence, customers must first be created, and Piggyvest enables you to create an unlimited number of customers using the Customer API.
+> 
+
+Upon creating a customer, a default wallet is automatically generated for them. Additional wallets can be created later if needed. You have two options: either create individual customers, each with a unique wallet or create a single customer with multiple wallets.
+
+**Note**: A customer can represent either an individual or a business, depending on your platform's requirements.
+
+## How to create a customer
+
+Currently, customers can only be created via an API, in the sample below we create a customer by calling the create customer endpoint.
+
+```tsx
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/customers
+
+const payload = {
+    email: "myuser@gmail.com",
+    name: "John champion",
+    phone: "08122299933",
+    bvn: "22112200222",
+    id_type: "nin",
+    id_number: "09123490456",
+    third_party_identifier: "71521345-802f-4934-82bb-e0c8f8ff1e9d"
+}
+
+await axios.post(url, payload, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+| Parameters  | Description |
+| --- | --- |
+| **email** | Email of the customer. Must be Unique to your account. **REQUIRED** |
+| **name** | Name of the customer. **REQUIRED** |
+| **phone** | Phone number of the customer. Must be Unique to your account. **REQUIRED** |
+| **bvn** | Bvn information of the customer. **REQUIRED**  |
+| **id_type** | Government issued identity type for the customer. possible values are “international_passport”, “nin”, “voter_card” and “driver_license”. **REQUIRED**  |
+| **id_number** | Number for the “id_type” provided. **REQUIRED** |
+| **third_party_identifier** | Ideally this should be something that can identify the user on your system, e.g UserId on your system. **OPTIONAL** |
+
+Sample success response below
+
+```tsx
+{
+"status": true,
+"message": "Customer created successfully",
+"data": {
+"customer_id": "995f18f2-858a-4522-9e38-1f5d18bad423",
+"wallet_id": "023f843a-be7e-494a-bc5d-9f49f4cc640f"
+}
+}
+
+Error Response, 400 status code
+{
+"status": false,
+"message": "An error occurred creating customer"
+}
+```
+
+
+## Fetch Customers
+
+To retrieve a customer or all customers, make an API request to the fetch customers endpoint. 
+| Parameters  | Description | Mandatory |
+| --- | --- | --- |
+| limit| How many documents should be returned. If nothing is passed 20 will be returned by default. Maximum value per response is 100.  | Optional |
+| cursor| For Subsequent requests to get more customers, You pass this value to get the next set of wallets. This is a timestamp value and can be gotten from the current response **data.paginatedPayload.pageInfo.endCursor**. Passing this on subsequent api calls will give you the next set of wallet records. | Optional |
+| third_party_identifier | If you passed this value while creating a customer, You can filter against a customer with the identifier | Optional |
+| customer_id |  You can also filter by customer_id returned in the response for creating a customer | Optional |
+
+
+<CodeGroup>
+```tsx Request
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/customers
+
+await axios.get(url, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+```tsx Response
+{
+    "status": true,
+    "message": "Customers fetched successfully",
+    "data": {
+        "paginatedPayload": {
+            "edges": [
+                {
+                    "id": "f38a668b-9219-11ef-9d93-42010a9c001c",
+                    "name": "John champion",
+                    "email": "my2uwerser@gmail.com",
+                    "phone": "991220399933",
+                    "slug_id": "PVB983855091",
+                    "third_party_identifier": "7152134e5-802f-4934-82bb-e0c8f8ff1e9d",
+                    "created_at": "2024-10-24T15:09:24.000Z"
+                },
+                {
+                    "id": "721a6944-9204-11ef-9d93-42010a9c001c",
+                    "name": "John champion",
+                    "email": "myuser@gmail.com",
+                    "phone": "2348122399933",
+                    "slug_id": "PVB608831553",
+                    "third_party_identifier": "7152134e5-802f-4934-82bb-e0c8f8ff1e9d",
+                    "created_at": "2024-10-24T12:35:27.000Z"
+                }
+            ],
+            "pageInfo": {
+                "hasNextPage": false,
+                "endCursor": "2024-10-24T12:35:27.000Z",
+                "previousCursor": "2024-10-24T15:09:24.000Z"
+            }
+        }
+    }
+}
+```
+</CodeGroup>
+
