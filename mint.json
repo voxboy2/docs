@@ -57,7 +57,7 @@
 
     {
       "group": "Transfers ",
-      "pages": ["transfers/transfer-overview", "bank-transfers", "wallet-transfers", "transfer-webhooks"]
+      "pages": ["transfers/transfer-overview"]
     },
 
     {
