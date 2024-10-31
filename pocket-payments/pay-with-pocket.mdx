@@ -1,0 +1,185 @@
+---
+title:  Pay with Pocket
+---
+Revolutionize your checkout process with Piggytech's paywithPocket by offering your customers a seamless and secure experience. With paywithPocket you can: 
+
+- Accept multiple payment methods
+- Streamline the checkout process to minimize lost sales.
+- Protect your business and customers with advanced security measures.
+- Tailor the checkout flow to your brand and preferences.
+
+## PocketApp Payment Steps
+Making payments: Desktop View 
+- Customer selects **paywithPocket** and is prompted to enter their Pocket ID also known as Pocket Tag.
+![select pocket app](/images/select-pay-with-pocket.png)
+- Upon submitting the Pocket ID, a **QR code** is generated, which the customer scans with the PocketApp to initiate payment.
+![Pocket QR code](/images/pocket-qr-code.png)
+- Customer confirms the payment, and real-time transaction statuses are displayed—either **successful** or **failed**.
+- **Merchant** is able to review and manage these transactions on their Piggyvest business dashboard
+
+Making payments: Mobile View
+- Customer selects **paywithPocket** and is prompted to enter their Pocket ID also known as Pocket Tag.
+![select pocket app](/images/select-pay-with-pocket.png)
+- Upon submitting the Pocket ID, the customer clicks on continue which takes them to the next screen.
+- Selecting "Open PocketApp" automatically launches the Pocket app installed on the customer’s phone, prompting them to complete the payment.
+- Customer confirms the payment, and real-time transaction statuses are displayed—either **successful** or **failed**.
+![select pocket app](/images/pocket-successful.png)
+- **Merchant** is able to review and manage these transactions on their Piggyvest business dashboard.
+
+## How To Accept Payment
+To implement paywithPocket in an organized way, here’s a sample guide covering the basic steps. 
+This will include setup, initializing the SDK, handling the payment process, and managing callbacks for various transaction states.
+
+### Step 1: Include the paywithPocket SDK
+Add the following script to your HTML file where you want to use paywithPocket
+```HTML index
+<script src="https://pocket-checkout-sdk.netlify.app/checkout-sdk.js"></script>
+```
+
+### Step 2: Initialize the SDK on Your Web Page
+You can initialize Pay with Pocket in your JavaScript with the provided parameters.
+
+Here's a basic structure for initialization, setting options, and handling responses:
+```JavaScript
+// Initialize Pay with Pocket with required parameters
+const payWithPocket = new Pocket({
+  key: 'YOUR_MERCHANT_PUBLIC_KEY',   // Public key from your merchant account
+  amount: 2500000,                   // Transaction amount in kobo (e.g., 2500000 = ₦25,000)
+  wallet_id: 'TARGET_WALLET_ID',     // Optional: specify target wallet
+  reference: 'YOUR_TRANSACTION_REF', // Unique reference for each transaction
+  product_name: 'Product Name',      // Optional: Product or service name
+  narration: 'Transaction Description', // Brief description of the transaction
+  view: "popup",                     // "popup" for modal or "redirect" for new tab
+  redirect_url: "https://example.com/success", // URL to redirect on success
+  onSuccess: (reference) => {
+    console.log("Transaction Successful:", reference);
+    alert(`Payment successful! Reference: ${reference}`);
+  },
+  onClose: () => {
+    console.log("Checkout closed by the user.");
+    alert("Payment process was closed.");
+  },
+  onPending: () => {
+    console.log("Payment is pending confirmation.");
+  },
+  onOpen: () => {
+    console.log("Payment checkout has been opened.");
+  },
+  onError: (error) => {
+    console.error("An error occurred:", error);
+    alert("An error occurred during the payment process.");
+  }
+});
+```
+
+
+### Step 3: Trigger the Checkout UI
+You can directly call .show() to display the checkout UI or bind it to a specific button. Here’s how to set up both options:
+
+Option 1: Direct Call
+```jsx
+// Display the checkout UI immediately
+payWithPocket.show();
+```
+
+Option 2: Bind to a Button Click
+```HTML
+<!-- HTML button to trigger the payment -->
+<button id="payWithPocketButton">Pay with Pocket</button>
+```
+
+```jsx
+// Trigger the checkout when button is clicked
+document.getElementById("payWithPocketButton").addEventListener("click", () => {
+  payWithPocket.show();
+});
+```
+
+### Step 4: Update Payment Status (If Needed)
+After payment confirmation, you may want to manually update the payment status if any backend events or webhooks influence it.
+
+```jsx
+// Update status manually (e.g., from a webhook or external confirmation)
+payWithPocket.updatePaymentStatus('success'); // or 'failed'
+```
+
+### Step 5: Receive and validate webhook notification
+To capture payment events like success, failure, or pending, set up a backend endpoint to receive webhooks from the Pay with Pocket platform. Read our guide on securing and validating the webhook notification on your end.
+
+Here’s a sample JSON structure of the webhook data:
+
+```json
+{
+  "eventId": "01J9X83PAG228MPS6WDTJFGK8D",
+  "customer_id": "55b71d43-2efa-4ad8-ab67-2addabaee1ad",
+  "eventType": "pocket-transfer.inflow.success",
+  "eventCategory": "inflow_transaction",
+  "eventData": {
+    "id": "831bbab0-87a2-11ef-adac-42010a9c0fc0",
+    "customer_id": "55b71d23-2efa-4ad8-ab67-2addabaee1ad",
+    "destination_wallet_id": "083fa052-24d2-48f8-a954-5c79b50399ec",
+    "type": "inter",
+    "category": "pocket_transfer_inflow",
+    "amount": 50000,
+    "currency": "NGN",
+    "status": "COMPLETED",
+    "timestamp": "2024-10-11T07:36:22.079Z"
+  }
+}
+```
+
+<br />
+
+
+View the full code snippet belown 
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pay with Pocket Integration</title>
+  <script src="https://pocket-checkout-sdk.netlify.app/checkout-sdk.js"></script>
+</head>
+<body>
+  <h1>Checkout</h1>
+  <button id="payWithPocketButton">Pay with Pocket</button>
+
+  <script>
+    // Initialize Pocket with required options
+    const payWithPocket = new Pocket({
+      key: 'YOUR_MERCHANT_PUBLIC_KEY',    // Replace with your actual public key
+      amount: 2500000,                    // Transaction amount in kobo
+      reference: 'YOUR_TRANSACTION_REF',  // Unique transaction reference
+      product_name: 'Product Name',       // Product or service name
+      narration: 'Transaction Description', // Description for transaction
+      view: "popup",                      // UI option: "popup" or "redirect"
+      redirect_url: "https://example.com/success", // Redirect URL after success
+      onSuccess: (reference) => {
+        console.log("Transaction Successful:", reference);
+        alert(`Payment successful! Reference: ${reference}`);
+      },
+      onClose: () => {
+        console.log("Checkout closed by the user.");
+        alert("Payment process was closed.");
+      },
+      onPending: () => {
+        console.log("Payment is pending confirmation.");
+      },
+      onOpen: () => {
+        console.log("Payment checkout has been opened.");
+      },
+      onError: (error) => {
+        console.error("An error occurred:", error);
+        alert("An error occurred during the payment process.");
+      }
+    });
+
+    // Bind to button
+    document.getElementById("payWithPocketButton").addEventListener("click", () => {
+      payWithPocket.show();
+    });
+  </script>
+</body>
+</html>
+```

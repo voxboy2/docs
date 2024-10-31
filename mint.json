@@ -47,27 +47,22 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["get-started/overview", "get-started/authentication", "get-started/webhooks"]
+      "pages": [
+        "get-started/overview",
+        "get-started/authentication",
+        "get-started/webhooks"
+      ]
     },
 
     {
-      "group": "Customers",
-      "pages": ["customers/customer-overview"]
-    },
-
-    {
-      "group": "Transfers ",
-      "pages": ["transfers/transfer-overview"]
-    },
-
-    {
-      "group": "Accept payments",
-      "pages": ["bank accounts"]
-    },
-
-    {
-      "group": "Wallets ",
-      "pages": ["wallets/wallet-overview"]
+      "group": "Products",
+      "pages": [
+        "pocket-payments/pay-with-pocket",
+        "customers/customer-overview",
+        "transfers/transfer-overview",
+        "wallets/wallet-overview",
+        "scheduled-payments/schedule-payments"
+      ]
     },
 
     {
@@ -145,7 +140,6 @@
         "api-reference/restriction/restrict-property"
       ]
     }
-
   ],
   "footerSocials": {
     "twitter": "https://twitter.com/mintlify",
