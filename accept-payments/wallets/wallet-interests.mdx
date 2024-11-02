@@ -1,0 +1,54 @@
+---
+title: Wallet Accrued Interest
+---
+
+To retrieve the interest accrued on a wallet for the current month, make a request to the wallet accrued interest endpoint.
+
+<Note>This endpoint only returns data for the current month</Note>
+
+Path Parameter
+| Parameter  | Description | Mandatory |
+| --- | --- | --- |
+| wallet_id| The unique ID of the wallet | Required |
+
+The request will look like this
+
+```tsx Request
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/wallet/:wallet_id/accured-interests
+
+await axios.get(url, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+The response will look like this
+
+<CodeGroup>
+```tsx Success
+{
+    "status": true,
+    "message": "Wallet interest accrued",
+    "data": [
+        {
+            "balance": "NGN 1,100.00",
+            "interest_value": "NGN 0.30",
+            "interest_value_unformatted": 30.136986301369863,
+            "interest_date": "2024-03-25",
+            "percentage": 10
+        }
+    ]
+}
+```
+
+```tsx Error 400 status code
+{
+  "status": false,
+  "message": "An error occurred fetching accrued wallet interest"
+}
+```
+</CodeGroup>

@@ -1,0 +1,109 @@
+---
+title: Fetch all wallets for customer
+---
+To retrieve all wallets that belong to a customer make an api request to the fetch all wallets endpoint
+
+**Path Parameter**
+| Parameters  | Description | Mandatory |
+| --- | --- | --- |
+| wallet_type | The value should be  `api` | Required
+
+
+**Query Parameters**
+| Parameters  | Description | Mandatory |
+| --- | --- | --- |
+| limit| How many records should be returned. If nothing is passed 20 will be returned by default. Maximum value is 100.  | Required |
+| cursor| For Subsequent requests to get more wallets, You pass this value to get the next set of wallets. This is a timestamp value and can be gotten from the current response **data.paginatedPayload.pageInfo.endCursor**. Passing this on subsequent api calls will give you the next set of wallet records. | Required |
+| orderBy | This is either ASC or DESC. For how you want to order your wallets. Defaults to DESC if nothing is passed. Which is MOST recent record first.  | Optional |
+| customer_id | The ID of the customer that owns the wallets | Required |
+
+
+The request should be like
+```Fetch multiple wallets
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/wallet/:wallet_type/wallet-type
+
+await axios.get(url, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+The response should be like
+<CodeGroup>
+```tsx Successful
+{
+    "status": true,
+    "message": "API wallets fetched successfully",
+    "data": {
+        "total_balance": 40000
+        "paginatedPayload": {
+            "edges": [
+                {
+                    "id": "3b8251aa-b373-495b-9525-1221fe799f31",
+                    "business_id": "bfe60bd1-8621-4fa4-86bf-6fe6647e29e8",
+                    "branch_id": "65f71f4d-35e9-4128-985a-f185d5c04bb3",
+                    "faas_wallet_identifier": "df5ec9e3-efa9-459c-b0b6-d88f9288b0ba",
+                    "currency": "NGN",
+                    "name": "Chinex Tech API",
+                    "status": "active",
+                    "auto_payout": false,
+                    "type": "api",
+                    "is_subaccount": false,
+                    "parent_wallet_id": null,
+                    "balance": 20000,
+                    "ledger_balance": 65000,
+                    "gradient_color_id": null,
+                    "provider_payload": null,
+                    "auto_withdrawal_destination_type": null,
+                    "auto_withdrawal_destination_id": null,
+                    "auto_withdrawal_destination_name": null,
+                    "auto_withdrawal_destination_code": null,
+                    "created_at": "2023-12-18T01:50:54.000Z",
+                    "updated_at": "2024-02-16T09:35:44.000Z",
+                    "deleted_at": null
+                },
+                {
+                    "id": "50a0d8e4-072a-434a-bfe8-77b96aa08b82",
+                    "business_id": "bfe60bd1-8621-4fa4-86bf-6fe6647e29e8",
+                    "branch_id": "65f71f4d-35e9-4128-985a-f185d5c04bb3",
+                    "faas_wallet_identifier": "7e97da80-51cc-4fdb-b66c-f2680b21dc08",
+                    "currency": "NGN",
+                    "name": "Another API Account",
+                    "status": "active",
+                    "auto_payout": false,
+                    "type": "api",
+                    "is_subaccount": true,
+                    "parent_wallet_id": "3b8251aa-b373-495b-9525-1221fe799f31",
+                    "balance": 20000,
+                    "ledger_balance": 20000,
+                    "gradient_color_id": "7",
+                    "provider_payload": null,
+                    "auto_withdrawal_destination_type": null,
+                    "auto_withdrawal_destination_id": null,
+                    "auto_withdrawal_destination_name": null,
+                    "auto_withdrawal_destination_code": null,
+                    "created_at": "2024-01-30T12:15:20.000Z",
+                    "updated_at": "2024-02-15T17:20:29.000Z",
+                    "deleted_at": null
+                }
+            ],
+            "pageInfo": {
+                "hasNextPage": false,
+                "endCursor": "2024-01-30T07:40:49.000Z", // Subsequent calls to get more records, Pass this as cursor
+            }
+        }
+    }
+}
+```
+
+```tsx Failed Response(400 status code)
+{
+  "status": false,
+  "message": "An error occurred fetching api wallets"
+}
+```
+</CodeGroup>

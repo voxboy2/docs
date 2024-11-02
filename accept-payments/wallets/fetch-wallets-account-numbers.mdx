@@ -1,0 +1,58 @@
+---
+title: Retrive wallet account numbers
+---
+
+To retrieve all virtual account numbers that belong to a wallet make an api request to the retrieve wallet account numbers endpoint.
+
+Path Parameter
+| Parameter  | Description | Mandatory |
+| --- | --- | --- |
+| wallet_id| The unique ID of the wallet | Required |
+
+The request should be like
+```tsx Request
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/wallet/:wallet_id/accounts
+
+await axios.get(url, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+Sample success response below​
+<CodeGroup>
+```tsx Response
+{
+    "status": true,
+    "message": "Fetched virtual accounts for wallet",
+    "data": [
+        {
+            "account_number": "9971338168",
+            "account_name": "WHITE HIRTHEIBADAN MAKOKO DEVICE 1",
+            "bank_name": "Paystack-Titan",
+            "paypoint_name": "Ibadan Makoko Device - 1",
+            "paypoint_id": "6491b284-606c-4926-aadf-9914c1d7443c"
+        },        
+        {
+            "account_number": "4600123001",
+            "account_name": "Chinex and sons",
+            "bank_name": "VFD Microfinance Bank (V-Bank)",
+            "paypoint_name": null,
+            "paypoint_id": null
+        }
+    ]
+}
+```
+
+```
+Error Response, 400 status code
+{
+  "status": false,
+  "message": "Failed to get virtual accounts for wallet"
+}
+```
+</CodeGroup>

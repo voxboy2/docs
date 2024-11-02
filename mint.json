@@ -57,11 +57,23 @@
     {
       "group": "Products",
       "pages": [
-        "pocket-payments/pay-with-pocket",
-        "customers/customer-overview",
-        "transfers/transfer-overview",
-        "wallets/wallet-overview",
-        "scheduled-payments/schedule-payments"
+        {
+          "group": "Accept Payments",
+          "pages": [
+            "accept-payments/payments",
+            {
+              "group": "Wallets",
+              "pages": [
+                "accept-payments/wallets/wallet-overview",
+                "accept-payments/wallets/create-wallet",
+                "accept-payments/wallets/view-wallet",
+                "accept-payments/wallets/fetch-wallets-account-numbers",
+                "accept-payments/wallets/fetch-wallets",
+                "accept-payments/wallets/wallet-interests"
+              ]
+            }
+          ]
+        }
       ]
     },
 
