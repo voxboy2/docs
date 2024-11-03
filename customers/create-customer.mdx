@@ -1,0 +1,63 @@
+---
+title: Create a customer
+---
+
+Currently, customers can only be created via an API, in the sample below we create a customer by calling the create customer endpoint.
+
+**Body Parameters**
+| Parameters | Description | Mandatory |
+| --- | --- | --- |
+| email| Email of the customer. Must be Unique to your account. | Required |
+| name| Full name of the customer | Required |
+| phone | The customer’s phone number must be unique within your account or integration | Required |
+| bvn | Bvn information of the customer. | Required |
+| id_type | Government issued identity type for the customer. possible values are `international_passport`, `nin`, `voter_card` and `driver_license`. | Required |
+| id_number | Number for the `id_type` provided. | Required |
+| third_party_identifier | The unique identifier for the customer on your platform. Ideally, this should be a value that distinctly identifies the user within your system, such as a user ID or email etc |  **optional** |
+
+<Note>Upon calling this endpoint, both the customer and a default wallet are created. No webhook is sent for this initial action, so a `200 OK response` confirms that both the customer and wallet have been successfully created.</Note>
+<Note>The only webhook we send during the customer creation process is `reserve_virtual_account.success`, which is triggered when a virtual account is created for the customer’s default wallet, used for funding purposes.</Note>
+<Note>If you need to create additional wallets linked to the same customer, you can call the Create Wallet endpoint and pass the customer ID.</Note>
+
+```tsx Request
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/customers
+
+const payload = {
+    email: "myuser@gmail.com",
+    name: "John champion",
+    phone: "08122299933",
+    bvn: "22112200222",
+    id_type: "nin",
+    id_number: "09123490456",
+    third_party_identifier: "71521345-802f-4934-82bb-e0c8f8ff1e9d"
+}
+
+await axios.post(url, payload, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+Sample success response below
+
+```tsx Success
+{
+"status": true,
+"message": "Customer created successfully",
+"data": {
+"customer_id": "995f18f2-858a-4522-9e38-1f5d18bad423",
+"wallet_id": "023f843a-be7e-494a-bc5d-9f49f4cc640f"
+}
+}
+```
+
+``` tsx Failed(400 status code)
+{
+"status": false,
+"message": "An error occurred creating customer"
+}
+```

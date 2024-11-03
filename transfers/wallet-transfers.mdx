@@ -1,0 +1,105 @@
+---
+title: Transfer to Wallets
+---
+
+This section explains the parameters and steps that are needed to send money to a wallet on the piggyvest platform. The process for wallet transfer involves initiating a POST request through our [Wallet transfer API](/api-reference/transfers/wallet-to-wallet-transfer).
+
+## Making a transfer to a wallet
+
+The following steps need to be taken to process payments to a bank account:
+
+<Steps>
+
+<Step title="Verify the wallet number">
+This step is crucial, ensure that you are sending the funds to the correct wallet.
+</Step>
+
+<Step title="Request transfer">
+Make an API call to the wallet transfer endpoint with the required parameters below.
+</Step>
+
+<Step title="Verify the wallet number">
+This step is crucial, ensure that you are sending the funds to the correct wallet.
+
+**Body Parameters**
+
+| Parameters  | Description                                                                                                                                                                 | Mandatory |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| amount      | Amount In **KOBO**.                                                                                                                                                         | Required  |
+| source      | Source wallet id. This wallet will be debited                                                                                                                               | Required  |
+| destination | Destination wallet id. This wallet will be credited                                                                                                                         | Required  |
+| currency    | Must be **NGN**                                                                                                                                                             | Required  |
+| reference   | The unique reference of the transaction                                                                                                                                     |           |
+| narration   | The description of what the transfer is for                                                                                                                                 | Required  |
+| currency    | The currency which is used to fund the transfer                                                                                                                             | Required  |
+| reference   | The unique reference of the transaction in your system . This reference must be unique .You will get back this reference upon receiving webhooks and can use it to run TSQ. | Required  |
+
+A request would look like this
+
+```tsx request
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/transfer/wallet
+const payload = {
+    amount: 500000,
+    narration: "Transfer to user 2",
+    currency: "NGN",
+    source: "f3ad0937-1d03-4843-b3d3-a09210967e49",
+    destination: "023f843a-be7e-494a-bc5d-9f49f4cc640f",
+    reference: "7bc2dfe9-fad4-48d7-af45-87b55baca2e9"
+}
+
+await axios.post(url, payload, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+ })
+```
+
+
+<Note>
+  Please note that a 200 successful response is an indication that the request
+  has been scheduled to process successfully, This is not the final confirmation
+  of the transaction status. For final confirmation either wait for webhooks or
+  have a re-query strategy to do TSQ at intervals till the transaction status is
+  "successful" or "failed"
+</Note>
+
+A response would look like this
+
+```tsx Processing
+{
+    "status": true,
+    "message": "Peer to Peer Wallet transfer processing"
+}
+```
+
+<CodeGroup>
+
+```tsx Insufficient Funds Error
+{
+  "status": false,
+  "message": "Insufficient funds"
+}
+```
+
+```tsx Error during processing
+{
+  "status": false,
+  "message": "An error occurred processing wallet transfer"
+}
+```
+
+</CodeGroup>
+
+</Step>
+
+<Step title="Verify payment">
+It's crucial to verify the transaction by using your reference.
+ Even though the webhook was visited it doesn't guarantee the transaction's success.
+ In case the webhook notification fails to reach your server, confirming the payout through the verify payment endpoint is necessary.
+
+</Step>
+
+</Steps>

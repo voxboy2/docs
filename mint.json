@@ -73,6 +73,24 @@
               ]
             }
           ]
+        },
+
+        {
+          "group": "Customer API",
+          "pages": [
+            "customers/customer-overview",
+            "customers/create-customer",
+            "customers/managing-customers"
+          ]
+        },
+
+        {
+          "group": "Transfers ",
+          "pages": [
+            "transfers/transfer-overview",
+            "transfers/bank-transfers",
+            "transfers/wallet-transfers"
+          ]
         }
       ]
     },
