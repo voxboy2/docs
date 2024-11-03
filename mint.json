@@ -61,6 +61,7 @@
           "group": "Accept Payments",
           "pages": [
             "accept-payments/payments",
+            "accept-payments/checkout",
             {
               "group": "Wallets",
               "pages": [
@@ -89,7 +90,8 @@
           "pages": [
             "transfers/transfer-overview",
             "transfers/bank-transfers",
-            "transfers/wallet-transfers"
+            "transfers/wallet-transfers",
+            "transfers/schedule-transfers"
           ]
         }
       ]
