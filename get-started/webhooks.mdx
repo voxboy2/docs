@@ -11,7 +11,8 @@ To enable webhook events, you should register the webhook endpoint where you wan
 
 ## Setting Up Your webhook
 
-**Create the Webhook Url**
+<Steps>
+<Step title = "Create the Webhook Url">
 
 A webhook URL is a post endpoint that receives notifications from a server. The URL needs to parse a JSON request and return a 200 OK:
 
@@ -26,19 +27,22 @@ app.post("/my/webhook/url", function(req, res) {
 });
 ```
 
-**Add Your Webhook URL**
+</Step>
+
+<Step title = "Add Your Webhook URL">
 
 You can specify your webhook URL in the API and webhook page tab of your dashboard. Make sure that the webhook URL is unauthenticated and publicly available.
 
 - Click on your username in the navigation bar, then select “Settings”
-![login](/images/piggyvest-settings.png)
+  ![login](/images/piggyvest-settings.png)
 - Navigate to the “Business APIs” tab, then select “API and Webhook Options.”
-![business](/images/api-webhooks.png)
+  ![business](/images/api-webhooks.png)
 - Paste your webhook URL
-![login](/images/webhook-1.png)
+  ![login](/images/webhook-1.png)
 
+</Step>
 
-## Verify webhook event origin
+<Step title = "Verify webhook event origin">
 
 It’s important to note that your webhook URL is publicly available to anyone or system globally. To safeguard against potential misuse or exploitation of your webhook URL, you should verify your webhooks.
 
@@ -47,10 +51,12 @@ There are two ways to ensure events to your webhook URL are from Piggyvest :
 - Signature validation
 - IP whitelisting
 
+</Step>
+</Steps>
+
 ## Webhook ​Signature validation
 
 Before processing the webhook received from PiggyVest, the merchant should verify the HMAC SHA512 signature in the ‘x-pvb-signature’ header by comparing it with the received signature; proceeding only if the signatures match to ensure the integrity of the event payload and prevent unauthorized access
-
 
 ```webhook-validation.json
 import crypto from 'crypto'
@@ -73,20 +79,20 @@ if (hash !== request.headers['x-pvb-signature'] {
 })
 ```
 
-##Webhook Structure and Payload**
+## Webhook Structure and Payload
 
-| **Field** | **Value** | **Data Type** |
-| --- | --- | --- |
-| eventId | unique uuid to identify webhooks | String |
-| customer_id | The ID of the customer | Object |
-| eventData | Webhook data object | Object |
-| eventType | Type of the webhook event | String |
-| eventCategory | Category of the webhook event | String |
-| pvb_reference | The Piggyvest reference, this can be used for requery | String |
-| pvb_wallet | The Wallet that was debited for outflow transaction | String |
-| pvb_destination_wallet | The Wallet that was debited for outflow transaction | String |
-| pvb_third_party_reference | The customer’s own reference generated in their system | String |
-| pvb_schedule_payment_id | The ID of the scheduled payment, will be present if transfer was tied to a scheduled payment | String |
+| **Field**                 | **Value**                                                                                    | **Data Type** |
+| ------------------------- | -------------------------------------------------------------------------------------------- | ------------- |
+| eventId                   | unique uuid to identify webhooks                                                             | String        |
+| customer_id               | The ID of the customer                                                                       | Object        |
+| eventData                 | Webhook data object                                                                          | Object        |
+| eventType                 | Type of the webhook event                                                                    | String        |
+| eventCategory             | Category of the webhook event                                                                | String        |
+| pvb_reference             | The Piggyvest reference, this can be used for requery                                        | String        |
+| pvb_wallet                | The Wallet that was debited for outflow transaction                                          | String        |
+| pvb_destination_wallet    | The Wallet that was debited for outflow transaction                                          | String        |
+| pvb_third_party_reference | The customer’s own reference generated in their system                                       | String        |
+| pvb_schedule_payment_id   | The ID of the scheduled payment, will be present if transfer was tied to a scheduled payment | String        |
 
 **Sample Webhook Event**
 
