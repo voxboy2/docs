@@ -72,7 +72,8 @@
                 "accept-payments/wallets/fetch-wallets",
                 "accept-payments/wallets/wallet-interests"
               ]
-            }
+            },
+            "accept-payments/pocket-direct-api"
           ]
         },
 

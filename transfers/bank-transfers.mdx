@@ -11,6 +11,83 @@ The following steps need to be taken in order to process payments to a bank acco
 
 <Steps>
 
+<Step title="Fetch banks">
+Select the bank to make payments to. For name enquiry and bank transfers, 
+you’ll need to retrieve the bank code along with other bank details. This endpoint retrieves available banks and their respective codes.
+
+The request should be like the below 
+```tsx Fetch Banks
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/transfer/bank-list
+
+await axios.get(url, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+The response would be like the below
+<CodeGroup>
+
+``` Fetch Bank response
+{
+    "status": true,
+    "message": "All bank list retrieved successfully",
+    "data": [
+        {
+            "name": "9Payment Service Bank",
+            "code": "3653384",
+            "logo": "https://nigerianbanks.xyz/logo/default-image.png"
+        },
+        {
+            "name": "Access Bank",
+            "code": "02847738",
+            "logo": "https://nigerianbanks.xyz/logo/access-bank.png"
+        },
+        {
+            "name": "Kuda Bank",
+            "code": "141517",
+            "logo": "https://nigerianbanks.xyz/logo/kuda-bank.png"
+        },
+        {
+            "name": "Moniepoint MFB",
+            "code": "8181131",
+            "logo": "https://nigerianbanks.xyz/logo/default-image.png"
+        },
+        {
+            "name": "OPAY",
+            "code": "5142997",
+            "logo": "https://cloudfilesstore.blob.core.windows.net/icons/Banks/100004.png"
+        },
+        {
+            "name": "VFD",
+            "code": "1509672",
+            "logo": "https://nigerianbanks.xyz/logo/default-image.png"
+        },
+        {
+            "name": "Wema Bank",
+            "code": "2890519",
+            "logo": "https://nigerianbanks.xyz/logo/wema-bank.png"
+        }
+		 ]
+}
+```
+
+```
+Response(400 status code)
+{
+    "status": false,
+    "message": "An error occurred fetching bank list"
+}
+```
+</CodeGroup>
+
+</Step>
+
+
 <Step title="Verify the account number">
 ​
 The account number of the recipient should be verified using the verify account number API.

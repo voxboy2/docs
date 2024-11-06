@@ -1,0 +1,114 @@
+---
+title: Pocket Direct API
+---
+
+The Pocket Direct API feature makes it easy for you to collect payments from your customers by directly debiting their pocket account
+through a single integration—without using the Pay with Pocket checkout method. This API allows you to implement your own user interface, branding, and customer
+flow, while retaining the full functionality of the Pay with Pocket checkout.
+
+## How It Works
+
+<Steps>
+<Step title = "Collect customer's payment details.">
+Step 1 - Collect customer's payment details. 
+This includes the customers tag, the amount of the servive or product that you want to charge them for, narration this is description of what the paymnent is for , reference ,
+a unique reference generated on your platform for the transaction, product_name .  
+</Step>
+
+<Step title = "Make a request to the pocket direct API">
+Make a request to the  pocket direct API endpoint consisting of the customer details as well as the wallet represented by wallet_id  that you want to receive your payments in.
+
+```tsx Request
+{
+    "tag": "mazigraphql", // Required
+    "amount": 20000, // Required, Kobo
+    "narration": "Success test", // Required
+    "reference": "101029928283737373636533", // Required
+    "product_name": "Chinex Electronics", // Optional
+     "wallet_id": "dbdd82d2-9b52-4bd3-bb58-6aced2a1f08f" // Optional, Must be an expense wallet account. If not passed default expense wallet will be used
+}
+```
+
+```tsx Response
+{
+    "status": true,
+    "data": {
+        "response_code": "00",
+        "account_number": "0816973685",
+        "account_name": "Efe Ebieroma",
+        "bank_code": "058",
+        "response_message": "Payment initiated",
+        "currency": "NGN"
+    }
+}
+```
+
+</Step>
+
+<Step title = "Customer choses to accept or decline the payment">
+A notification will appear on the customer’s Pocket app, where they can choose to accept or decline the payment request:
+
+- If accepted: The customer’s account will be debited, and the payment will be processed.
+  ![Pocket Direct API](/images/pvb-accept.jpg)
+
+- If declined: The payment request is canceled, and no charge will be made.
+
+</Step>
+
+
+<Step title = "Verify and acknowlede webhook">
+It's important to verify the webhook for this transaction before giving value to the customer.
+Here’s a sample JSON structure of the webhook data:
+
+```json
+{
+  "eventId": "01JBH1HWF20N8JRF0JWSY674HS",
+  "customer_id": "55b71d43-2efa-4ad8-ab67-2addabaee1ad",
+  "eventType": "pocket-transfer.inflow.success",
+  "eventCategory": "inflow_transaction",
+  "eventData": {
+    "id": "837f96cf-807b-4795-9a6d-240c2135961c",
+    "customer_id": "55b71d43-2efa-4ad8-ab67-2addabaee1ad",
+    "destination_wallet_id": "5fa805a5-f228-4cac-8d9f-b9b9c20e3fdd",
+    "type": "inter",
+    "category": "pocket_inflow",
+    "amount": 30000,
+    "currency": "NGN",
+    "narration": "Sent by efemena",
+    "ip_address": "127.0.0.1",
+    "transaction_id": "1b010249-765a-43b5-be7f-7d8f357ada48",
+    "timestamp": "2024-10-31T10:22:14.912Z",
+    "internal_reference": "01JBH1HRNT1XASDSKQE0TS1EK2",
+    "status": "COMPLETED",
+    "provider": "pocket",
+    "third_party_reference": "pvfb_1a97f30b-9836-4760-b865-db7d72f48c4b1730370115631",
+    "initiator_reference": "pvfb_1a97f30b-9836-4760-b865-db7d72f48c4b1730370115631",
+    "recipient_name": null,
+    "recipient_bank_account_number": "5fa805a5-f228-4cac-8d9f-b9b9c20e3fdd",
+    "recipient_bank_account_name": "pvb",
+    "sender_bank_account_number": "efemena",
+    "sender_bank_name": "pocket",
+    "sender_name": "efemena",
+    "webhook_data": null,
+    "fee": 150,
+    "provider_fee": null,
+    "restriction_data": null,
+    "batch_id": null,
+    "execution_mode": null,
+    "batch_number": null,
+    "reason": null,
+    "destination_wallet_balance": "1031565",
+    "destination_wallet_ledger_balance": "1031565",
+    "reference": "01JBH1HRNT1XASDSKQE0TS1EK2"
+  },
+  "pvb_reference": "pvfb_1a97f30b-9836-4760-b865-db7d72f48c4b1730370115631",
+  "pvb_wallet": "11b7aced-07c4-49c9-a0e5-fe6fdc48ee81",
+  "pvb_destination_wallet": null,
+  "pvb_third_party_reference": "10299228283839339393939303003",
+  "pvb_schedule_payment_id": null
+}
+```
+</Step>
+
+
+</Steps>
