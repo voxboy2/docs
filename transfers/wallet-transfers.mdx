@@ -2,16 +2,17 @@
 title: Transfer to Wallets
 ---
 
-This section explains the parameters and steps that are needed to send money to a wallet on the piggyvest platform. The process for wallet transfer involves initiating a POST request through our [Wallet transfer API](/api-reference/transfers/wallet-to-wallet-transfer).
+This section explains the parameters and steps that are needed to send money to a wallet on the piggyvest platform. The process for wallet transfer involves initiating a POST request through our Wallet transfer API.
 
-## Making a transfer to a wallet
+## Initiate wallet transfer
 
 The following steps need to be taken to process payments to a bank account:
 
 <Steps>
 
 <Step title="Verify the wallet number">
-This step is crucial, ensure that you are sending the funds to the correct wallet.
+  This step is crucial, ensure that you are sending the funds to the correct
+  wallet.
 </Step>
 
 <Step title="Request transfer">
@@ -53,7 +54,6 @@ await axios.post(url, payload, {
  })
 ```
 
-
 <Note>
   Please note that a 200 successful response is an indication that the request
   has been scheduled to process successfully, This is not the final confirmation
@@ -91,11 +91,149 @@ A response would look like this
 
 </Step>
 
-<Step title="Verify payment">
-It's crucial to verify the transaction by using your reference.
- Even though the webhook was visited it doesn't guarantee the transaction's success.
- In case the webhook notification fails to reach your server, confirming the payout through the verify payment endpoint is necessary.
-
-</Step>
-
 </Steps>
+
+
+## Receiving and Validating webhooks
+We will send a webhook notification when a wallet transfer is successful or fails. To ensure security, please verify that the webhook originates from our system by checking the provided signature header. 
+If the webhook does not successfully reach your server, please confirm the wallet transfer status using the verified payment endpoint.
+
+A successful wallet webhook can be found below
+
+```tsx Wallet Transfer Webhook
+{
+  "eventId": "4d16a87f-d326-4147-bbc2-77014e3ac54b",
+  "customer_id": "c096507d-dc32-45d2-9c01-871a27abfd10",
+  "eventType": "wallet-transfer.outflow.success",
+  "eventCategory": "wallet_transfer",
+  "eventData": {
+    "id": "138df673-86b4-4a48-9825-3ef1858f6617",
+    "customer_id": "c096507d-dc32-45d2-9c01-871a27abfd10",
+    "source_wallet": "4e628341-7cee-455e-bb9f-5165032f3984",
+    "destination_wallet": "65c7a0bb-ade9-41f8-a267-1c5ed7ca14c4",
+    "type": "inter",
+    "category": "p2p",
+    "amount": 100,
+    "currency": "NGN",
+    "narration": "Payment for services",
+    "ip_address": "127.0.0.1",
+    "transaction_id": "fc326b6b-c0cf-4693-9092-55f5c3dea443",
+    "timestamp": "2024-02-03T16:09:47.512Z",
+    "internal_reference": "de3c7419-b391-4dde-9e22-56b9c045de6d",
+    "status": "COMPLETED",
+    "third_party_reference": "REF-0902662311050110357773321849adfd6100094961",
+    "initiator_reference": "REF-0902662311050110357773321849adfd6100094961",
+    "destination_wallet_balance": 6097800,
+    "source_wallet_balance": 492558300,
+    "reference": "de3c7419-b391-4dde-9e22-56b9c045de6d"
+  },
+  "pvb_reference": "C423B2B4-4A68-440F-BE8F-E1C27578A7C5", // You can use this for TSQ
+	"pvb_wallet": "71D7BF7D-F481-4109-BD9B-6EFAD13FDE27", // Source Wallet that was debited for p2p transaction
+	"pvb_destination_wallet": "F5DD85C7-BFAC-46CF-9831-70E930ACCF97", // Destination Wallet that was credited for p2p transaction
+	"pvb_third_party_reference": "C14105A0-F133-4AA6-A1CA-30BCFB659236", // Your reference, If you passed one upon transfer initialization, You can use for TSQ Also
+	"pvb_schedule_payment_id": "4b9353ea-cf7a-4980-b6f6-53e7aec89d40" // Will be present if transfer was tied to a scheduled payment
+}
+```
+
+A Failed wallet transfer webhook can be found below
+
+```tsx failed wallet transfer webhook
+{
+  "eventId": "429494d8-3f8d-4722-a48c-c0e3daf79577",
+  "customer_id": "cdec8b74-20e8-4e36-a8b0-8b13a16ee969",
+  "eventType": "wallet-transfer.outflow.failed",
+  "eventCategory": "wallet_transfer",
+  "eventData": {
+    "id": "a8a7a3ed-0822-11ef-b529-42010a9c003a",
+    "customer_id": "cdec8b74-20e8-4e36-a8b0-8b13a16ee969",
+    "source_wallet": "ab1c251f-a0a9-4e42-b933-3a56b0b87c91",
+    "destination_wallet": "5fa805a5-f228-4cac-8d9f-b9b9c20e3fdd",
+    "type": "inter",
+    "category": "p2p",
+    "amount": 10000,
+    "currency": "NGN",
+    "narration": "Wallet (Chilaks Man Ent Settlement), Transactions settlement transactions for Wednesday 1 May, 2024",
+    "ip_address": "127.0.0.1",
+    "transaction_id": "a94ba51e-0822-11ef-b529-42010a9c003a",
+    "timestamp": "2024-05-02T01:24:02.307Z",
+    "internal_reference": "10ecf710-7cb5-4a37-b0bd-fe39c11ede57",
+    "status": "PENDING_FRAUD_CHECKS",
+    "third_party_reference": "pvfb_f19386af-d3d8-4c8d-a523-4f2bc26ab5cf1714613041648",
+    "initiator_reference": "pvfb_f19386af-d3d8-4c8d-a523-4f2bc26ab5cf1714613041648",
+    "source_wallet_balance": "10000",
+    "source_wallet_ledger_balance": "10000",
+    "destination_wallet_balance": "348000",
+    "destination_wallet_ledger_balance": "348000",
+    "reference": "10ecf710-7cb5-4a37-b0bd-fe39c11ede57",
+    "fee": 0
+  }
+  "pvb_reference": "C423B2B4-4A68-440F-BE8F-E1C27578A7C5", // You can use this for TSQ
+	"pvb_wallet": "71D7BF7D-F481-4109-BD9B-6EFAD13FDE27", // Wallet that was debited for outflow transaction
+	"pvb_destination_wallet": null,
+	"pvb_third_party_reference": "C14105A0-F133-4AA6-A1CA-30BCFB659236", // Your reference, If you passed one upon transfer initialization, You can use for TSQ Also
+	"pvb_schedule_payment_id": "4b9353ea-cf7a-4980-b6f6-53e7aec89d40" // Will be present if transfer was tied to a scheduled payment
+}
+```
+
+
+## Perform Transaction Query
+To get the status of a wallet transfer you can pass Piggyvest business (PVB) reference or the reference you passed when initiating a transfer by making a request to the transaction query endpoint
+
+**Path Parameter**
+
+| Parameters | Description               | Mandatory |
+| ---------- | ------------------------- | --------- |
+| reference  | The transaction reference | Required  |
+
+The request should be like the below
+```tsx Transaction Query
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/transaction/verify?reference="pvfb_4b9353ea-cf7a-4980-b6f6-53e7aec89d40"
+
+await axios.get(url, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+The response should be like the below
+
+<CodeGroup>
+```tsx success 
+{
+    "status": true,
+    "message": "Transaction fetched successfully",
+    "data": {
+        "id": "pvfb_4b9353ea-cf7a-4980-b6f6-53e7aec89d40",
+        "available_balance": 0,
+        "amount": 500000,
+        "reference": "9e09061b-812a-4a7d-affd-9f1b7921ff4e",
+        "category": "p2p",
+        "third_party_reference": null,
+        "customer_id": "43e157b6-179c-432a-9392-e0827da96d82",
+        "source_wallet": "d2f07f9c-6aa1-4430-9ca5-faf6c8a5e747",
+        "destination_wallet": "d2f07f9c-6aa1-4430-9ca5-faf6c8a5e747",
+        "narration": "Transfer FROM Expense Wallet",
+        "internal_reference": "pvfb_4b9353ea-cf7a-4980-b6f6-53e7aec89d40",
+        "status": "successful", // Use this as confimation of successful transaction
+        "meta": {
+            "source_name": "Chinex Tech Savings",
+            "destination_name": "Chinex Tech Expense",
+            "source_number": "f3ad0937-1d03-4843-b3d3-a09210967e49",
+            "destination_number": "d2f07f9c-6aa1-4430-9ca5-faf6c8a5e747"
+        },
+        "created_at": "2023-12-03T21:44:05.252000000Z",
+        "updated_at": "2023-12-03T21:44:05.252000000Z"
+    }
+}
+```
+
+```tsx Failed Response(400 status code)
+{
+    "status": false,
+    "message": "Please provide a transaction reference"
+}
+```
+</CodeGroup>

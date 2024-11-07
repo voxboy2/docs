@@ -7,7 +7,7 @@ Step by step process on how to make a bank transfer
 
 The following steps need to be taken in order to process payments to a bank account:
 
-## Making bank transfers
+## Initiate bank transfer
 
 <Steps>
 
@@ -15,7 +15,8 @@ The following steps need to be taken in order to process payments to a bank acco
 Select the bank to make payments to. For name enquiry and bank transfers, 
 you’ll need to retrieve the bank code along with other bank details. This endpoint retrieves available banks and their respective codes.
 
-The request should be like the below 
+The request should be like the below
+
 ```tsx Fetch Banks
 import axios from 'axios'
 
@@ -30,9 +31,10 @@ await axios.get(url, {
 ```
 
 The response would be like the below
+
 <CodeGroup>
 
-``` Fetch Bank response
+```Fetch Bank response
 {
     "status": true,
     "message": "All bank list retrieved successfully",
@@ -83,10 +85,10 @@ Response(400 status code)
     "message": "An error occurred fetching bank list"
 }
 ```
+
 </CodeGroup>
 
 </Step>
-
 
 <Step title="Verify the account number">
 ​
@@ -112,16 +114,15 @@ Make an API call to the transfer endpoint with the required parameters below.
 
 **Body Parameter**
 
-| Parameters    | Description                                                                            | Mandatory |
-| ------------- | -------------------------------------------------------------------------------------- | --------- |
-| source        | The customer ID of the customer.                                                       | Required  |
-| accountNumber | The customer Id of the customer that wants to receive the funds                        | Required  |
-| bankCode      | The amount that should be sent                                                         | Required  |
-| bankName      | The currency that is used to fund the transfer                                         | Required  |
-| amount        | The unique reference of the transaction                                                |           |
-| narration     | The description of what the transfer is for                                            | Required  |
-| currency      | The currency which is used to fund the transfer                                        | Required  |
-| reference     | The unique reference of the transaction in your system . This reference must be unique | Required  |
+| Parameters    | Description                                                                                                                                                                               | Mandatory |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| amount        | Amount In KOBO                                                                                                                                                                            |           |
+| narration     | The description of what the transfer is for                                                                                                                                               | Required  |
+| currency      | The currency which is used to fund the transfer (NGN)                                                                                                                                     | Required  |
+| Source        | The ID of the wallet initiating the transfer                                                                                                                                              | Required  |
+| accountNumber | The customer ID of the customer that wants to receive the funds. Learn how to create a [customer](/customers/customer-overview)                                                           | Required  |
+| bankCode      | Bank Account Number to transfer to                                                                                                                                                        | Required  |
+| reference     | The unique reference of the transaction in your system . This reference must be unique . You will get back this reference upon receiving webhooks and can use it to run Transaction Query | Required  |
 
 The payload should look like this
 
@@ -175,12 +176,15 @@ The response should look like the below
 </CodeGroup>
 
 </Step>
+</Steps>
 
-<Step title="Receive and validate webhook notification">
-Listen for webhook events. We will send a notification to your webhook URL that indicates the transfer status. Read our guide on securing and validating the webhook notification on your end. 
-Please check the payout webhook page for further details on the different types webhook structures and body
+## Receive and validate webhook notification
 
-```tsx webhook
+Listen for webhook events. We will send a notification to your webhook URL that indicates the transfer status. Read our guide on securing and validating the webhook notification on your end.
+
+A successful bank transfer webhook can be found below
+
+```tsx successful-bank-transfer
 {
   "eventId": "6bf2bf74-708a-4e57-95f8-7a4d0ba35512",
   "customer_id": "c096507d-dc32-45d2-9c01-871a27abfd10",
@@ -223,15 +227,115 @@ Please check the payout webhook page for further details on the different types 
 	"pvb_schedule_payment_id": "4b9353ea-cf7a-4980-b6f6-53e7aec89d40" // Will be present if transfer was tied to a scheduled payment
 }
 ```
-</Step>
 
-<Step title="Verify payout">
-  It’s crucial to verify the transaction by using your reference. Even though
-  the webhook was visited it doesn’t guarantee the transaction’s success. In
-  case the webhook notification fails to reach your server, confirming the
-  payout through the verify payment endpoint is necessary.
-</Step>
+A Failed bank transfer webhook can be found below
 
-</Steps>
+```tsx failed-bank-transfer
+{
+  "eventId": "c3db79de-327d-490a-9a82-1516cab384a1",
+  "customer_id": "c096507d-dc32-45d2-9c01-871a27abfd10",
+  "eventType": "bank-transfer.outflow.failed",
+  "eventCategory": "bank_transfer_outflow",
+  "eventData": {
+    "id": "477f020b-fa8e-464b-a3a6-e5d293cc57f2",
+    "customer_id": "c096507d-dc32-45d2-9c01-871a27abfd10",
+    "source_wallet_id": "959b52ff-db83-45e4-9f5f-c8c04997f442",
+    "destination_wallet_id": "123e4567-e89b-12d3-a456-426614174001",
+    "type": "inter",
+    "category": "bank_transfer_outflow",
+    "amount": 100000,
+    "currency": "NGN",
+    "narration": "Bank transfer to OGUFERE TOBORE EFE for scheduled payment",
+    "ip_address": "127.0.0.1",
+    "transaction_id": "d8d1095a-abcd-4c49-8215-fb0716e39d06",
+    "timestamp": "2024-02-03T00:00:03.895Z",
+    "status": "PENDING_TRANSACTION_TYPE_HANDLING",
+    "third_party_reference": "pvfb_66193505-d201-4df9-84c0-71022e95b41b1706918403161",
+    "initiator_reference": "pvfb_66193505-d201-4df9-84c0-71022e95b41b1706918403161",
+    "response_code": null,
+    "response_message": null,
+    "recipient_bank_code": "5708244",
+    "recipient_bank_name": null,
+    "recipient_bank_account_number": "2066231129",
+    "recipient_bank_account_name": null,
+    "session_id": null,
+    "internal_reference": "985fafb3-7ee1-4afa-8db5-83de0d371248",
+    "sender_bank_account_number": null,
+    "sender_bank_name": null,
+    "sender_name": null,
+    "source_wallet_balance": 2150000,
+    "destination_wallet_balance": 607013500
+  },
+  "pvb_reference": "C423B2B4-4A68-440F-BE8F-E1C27578A7C5", // You can use this for TSQ
+	"pvb_wallet": "71D7BF7D-F481-4109-BD9B-6EFAD13FDE27", // Wallet that was debited for outflow transaction
+	"pvb_destination_wallet": null,
+	"pvb_third_party_reference": "C14105A0-F133-4AA6-A1CA-30BCFB659236", // Your reference, If you passed one upon transfer initialization, You can use for TSQ Also
+	"pvb_schedule_payment_id": "4b9353ea-cf7a-4980-b6f6-53e7aec89d40" // Will be present if transfer was tied to a scheduled payment
+}
+```
 
-​
+## Perform Transaction Query
+
+To get the status of a bank transfer you can pass Piggyvest business (PVB) reference or the reference you passed when initiating a transfer by making a request to the transaction query endpoint
+
+**Path Parameter**
+
+| Parameters | Description               | Mandatory |
+| ---------- | ------------------------- | --------- |
+| reference  | The transaction reference | Required  |
+
+The request should be like the below
+
+```tsx Transaction Query
+import axios from 'axios'
+
+const secretKey = process.env.PVB_SECRET_KEY
+const url = ${process.env.PVB_BASE_URL}/api/v1/transaction/verify?reference="pvfb_4b9353ea-cf7a-4980-b6f6-53e7aec89d40"
+
+await axios.get(url, {
+    headers: {
+      'Authorization': `Bearer ${secretKey}`,
+    },
+  })
+```
+
+The response should be like the below
+
+<CodeGroup>
+```tsx success 
+{
+    "status": true,
+    "message": "Transaction fetched successfully",
+    "data": {
+        "id": "pvfb_4b9353ea-cf7a-4980-b6f6-53e7aec89d40",
+        "available_balance": 0,
+        "amount": 500000,
+        "reference": "9e09061b-812a-4a7d-affd-9f1b7921ff4e",
+        "category": "p2p",
+        "third_party_reference": null,
+        "customer_id": "43e157b6-179c-432a-9392-e0827da96d82",
+        "source_wallet": "d2f07f9c-6aa1-4430-9ca5-faf6c8a5e747",
+        "destination_wallet": "d2f07f9c-6aa1-4430-9ca5-faf6c8a5e747",
+        "narration": "Transfer FROM Expense Wallet",
+        "internal_reference": "pvfb_4b9353ea-cf7a-4980-b6f6-53e7aec89d40",
+        "status": "successful", // Use this as confimation of successful transaction
+        "meta": {
+            "source_name": "Chinex Tech Savings",
+            "destination_name": "Chinex Tech Expense",
+            "source_number": "f3ad0937-1d03-4843-b3d3-a09210967e49",
+            "destination_number": "d2f07f9c-6aa1-4430-9ca5-faf6c8a5e747"
+        },
+        "created_at": "2023-12-03T21:44:05.252000000Z",
+        "updated_at": "2023-12-03T21:44:05.252000000Z"
+    }
+}
+```
+
+```tsx Failed Response(400 status code)
+{
+    "status": false,
+    "message": "Please provide a transaction reference"
+}
+```
+
+</CodeGroup>

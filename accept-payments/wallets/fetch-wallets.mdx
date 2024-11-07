@@ -15,7 +15,7 @@ To retrieve all wallets that belong to a customer make an api request to the fet
 | limit| How many records should be returned. If nothing is passed 20 will be returned by default. Maximum value is 100.  | Required |
 | cursor| For Subsequent requests to get more wallets, You pass this value to get the next set of wallets. This is a timestamp value and can be gotten from the current response **data.paginatedPayload.pageInfo.endCursor**. Passing this on subsequent api calls will give you the next set of wallet records. | Required |
 | orderBy | This is either ASC or DESC. For how you want to order your wallets. Defaults to DESC if nothing is passed. Which is MOST recent record first.  | Optional |
-| customer_id | The ID of the customer that owns the wallets | Required |
+| customer_id | The ID of the customer that owns the wallets. Learn how to create a [customer](/customers/customer-overview) | Required |
 
 
 The request should be like

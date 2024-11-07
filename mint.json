@@ -60,7 +60,7 @@
         {
           "group": "Accept Payments",
           "pages": [
-            "accept-payments/payments",
+            "accept-payments/accept-payments-overview",
             "accept-payments/checkout",
             {
               "group": "Wallets",
