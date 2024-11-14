@@ -28,10 +28,6 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
-    },
-    {
       "name": "API Libraries and SDKs",
       "url": "api-referencne"
     },
