@@ -6,16 +6,46 @@ Empower your business with the Piggyvest Wallet API.Our flexible solution allows
 <Note>To create wallets for your customers, you first need to set them up as customer entities on our platform. 
 To learn more about what we define as a customer, click [here](/get-started/customers/customer-overview)</Note>
 
-## Features
-**Interest Accrual:** Grow your funds with competitive interest rates.
-<Note>Piggyvest business wallets earn interest at 11% per annum. The Interest accrued daily is reflected on the wallet and is paid on the first day of a new month. For every wallet generated, 
-you can also set their configurations on the percentage of interests that should be earned.</Note>
-**Instant Transfers:** Move funds seamlessly between wallets and external accounts.
+## API Wallet
+The wallet designated for API integrations is called the API account. From the dashboard, you can view the number of API wallets created for your integration 
+and set specific rates and fees for each wallet. This documentation focuses on API wallets, also referred to as API accounts.
+
+![login](/images/wallet-api.png)
+
+<Note>API wallet can only make transfers through the transfers API and not through a visual dashboard</Note>
+
+### Main API Wallet
+This wallet is created for your business to fund or make transfers. It is your main wallet, identified by the `Main` keyword
+![login](/images/main-account.png)
+
+**Fund your main wallet** : Fund your wallet by making a transfer to the virtual account generated for your main wallet
+![login](/images/fund-account.png)
+
+### Other API Wallets
+You can create additional wallets for specific use cases and customers. These are separate from your main wallet and are not marked with the `Main` keyword.
+![login](/images/other-wallets.png)
+
+
+## Interest Management
+Earn 11% annual interest on your wallet balance. Interest is accrued daily and paid monthly on the first day of each month. 
+To ensure you receive interest on the first day of the month, you can try limiting transfers out of your wallet to four times per month.
+
 <Warning>If there are four or more transfers out of the wallet in a month, the wallet will not earn interest for that month.</Warning>
 
-**Real-time Monitoring:** Track balances and transactions in real time.
+Configure the interests rates of your wallets and select where the balance should go
 
-**Flexible Customization:** Tailor wallet features to meet your specific business needs.
+![login](/images/interests-api.png)
+
+
+
+## Features
+- **Interest Accrual:** Grow your funds with competitive interest rates.
+
+- **Instant Transfers:** Move funds seamlessly between wallets and external accounts.
+
+- **Real-time Monitoring:** Track balances and transactions in real time.
+
+- **Flexible Customization:** Tailor wallet features to meet your specific business needs.
 
 ## Operations
 <Tip>You can create, restrict, or increase wallet balances and execute other actions on a wallet account using the wallet endpoints.</Tip>
