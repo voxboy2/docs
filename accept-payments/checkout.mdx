@@ -56,6 +56,8 @@ Here's a basic structure for initialization, setting options, and handling respo
 const payWithPocket = new Pocket({
   key: 'YOUR_MERCHANT_PUBLIC_KEY',   // Public key from your merchant account
   amount: 2500000,                   // Transaction amount in kobo (e.g., 2500000 = ₦25,000)
+  meta?: any // pass your custom information(Will be sent back via webhooks)
+
   wallet_id: 'TARGET_WALLET_ID',     // Optional: specify target wallet
   reference: 'YOUR_TRANSACTION_REF', // Unique reference for each transaction
   product_name: 'Product Name',      // Optional: Product or service name
