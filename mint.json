@@ -86,9 +86,13 @@
           "pages": [
             "transfers/transfer-overview",
             "transfers/bank-transfers",
-            "transfers/wallet-transfers",
-            "transfers/schedule-transfers"
+            "transfers/wallet-transfers"
           ]
+        },
+
+        {
+          "group": "Scheduled Payment",
+          "pages": ["schedule-payment"]
         }
       ]
     }
